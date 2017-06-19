@@ -4,6 +4,7 @@ import indexView from '../views/indexView.vue'
 import otherView from '../views/otherView.vue'
 import loginView from '../views/loginView.vue'
 import registerView from '../views/registerView.vue'
+import userinfo from '../components/user/userinfo.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,10 @@ export default new Router({
     {
       path: '/register',
       component: registerView
+    },
+    {
+      path: '/userinfo',
+      component: userinfo
     }
   ]
 })

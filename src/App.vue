@@ -7,11 +7,14 @@
           <router-link to="/other">其它页面</router-link>
         </div>
         <mu-flat-button v-if="!loginStatus" color="white" label="登录/注册" slot="right" @click="login"/>
-        <mu-flat-button v-if="loginStatus" color="white" slot="right" label="茧" @click="toggle()" />
+        <mu-flat-button v-if="loginStatus" color="white" slot="right" :label="userName" @click="toggle()" />
           <mu-drawer right :open="open" @close="toggle()">
             <mu-appbar title="个人中心">
               <mu-icon-button icon='menu' slot="left" @click="toggle()"/>
             </mu-appbar>
+            <mu-list>
+              <mu-list-item @click="userInfo" title="个人信息"/>
+            </mu-list>
             <mu-list>
               <mu-list-item @click="loginOut" title="退出登录"/>
             </mu-list>
@@ -41,6 +44,9 @@ export default {
     loginStatus () {
       // 当存在本地保存的登录状态则使用本地登录状态 ,如果登出则本地登录状态被撤回此时使用store保存的状态
       return this.localStorage.login ? this.localStorage.login : this.$store.state.user.login
+    },
+    userName () {
+      return this.$store.state.user.userInfo.name
     }
   },
   methods: {
@@ -64,6 +70,9 @@ export default {
           _this.$router.push('/login');
           _this.toggle()
         })
+    },
+    userInfo () {
+      this.$router.push('/userinfo');
     }
   }
 }

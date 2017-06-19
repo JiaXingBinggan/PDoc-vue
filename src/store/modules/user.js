@@ -5,6 +5,7 @@ const state = {
   login: false,
   userInfo: { // 保存用户信息
     email: null,
+    name: null,
     uid: null
   }
 }

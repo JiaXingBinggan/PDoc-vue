@@ -21,21 +21,22 @@
   <div class="demo-step-content">
     <template v-if="!finished">
       <div v-if="activeStep == 0" class="register-step-one">
-        <mu-text-field class="emailText" v-model="registerEmail" label="输入邮箱" :errorText="errorEmailText" labelFloat/>
+        <mu-text-field class="emailText" v-model="registerEmail" label="输入邮箱" :errorText="errorEmailText" icon="email" labelFloat/>
         <mu-raised-button :label="sendButtonText" @click="sendEmailCaptcha" class="demo-raised-button" :disabled="sendButtonActive" primary/>
-        <mu-text-field v-model="registerEmailCaptcha" @textOverflow="handleInputOverflow" label="输入邮箱验证码" :errorText="errorEmailCaptchaText" :maxLength="4" labelFloat/>
+        <mu-text-field v-model="registerEmailCaptcha" @textOverflow="handleInputOverflow" label="输入邮箱验证码" :errorText="errorEmailCaptchaText" :maxLength="4" icon="message" labelFloat/>
       </div>
       <div v-if="activeStep == 1" class="register-step-two">
-        <mu-text-field v-model.trim="registerPass" label="输入密码" :errorText="errorPassText" type="password" labelFloat/>
+        <mu-text-field v-model.trim="registerPass" label="输入密码" :errorText="errorPassText" type="password" icon="lock" labelFloat/>
         <div v-if="registerPass" class="password-score">
             <div v-if="countPassword <= 1" class="password-weak"></div>
             <div v-if="countPassword > 1 && countPassword <= 3" v-text=""class="password-medium"></div>
             <div v-if="countPassword == 4" class="password-strong"></div>
         </div>
-        <mu-text-field v-model="registerRePass" label="再次输入" :errorText="errorRePassText" type="password" labelFloat/>
+        <mu-text-field v-model.trim="registerRePass" label="再次输入" :errorText="errorRePassText" type="password" icon="lock" labelFloat/>
       </div>
       <div v-if="activeStep == 2" class="register-step-three">
         <span>恭喜您已经完成注册</span>
+        <mu-text-field v-model="registerName" label="输入您的昵称" :errorText="errorNameText" labelFloat/>
       </div>
       <div class="register-button">
         <mu-flat-button class="demo-step-button" label="上一步" :disabled="activeStep === 0 || activeStep === 2" @click="handlePrev"/>
@@ -61,10 +62,12 @@ export default {
       registerEmailCaptcha: '',
       registerPass: '',
       registerRePass: '',
+      registerName: '',
       errorEmailText: '',
       errorEmailCaptchaText: '',
       errorPassText: '',
       errorRePassText: '',
+      errorNameText: '',
       buttonActive: false,
       sendButtonActive: false,
       sendButtonText: '发送'
@@ -99,8 +102,12 @@ export default {
       if (val == '') {
         this.sendButtonActive = true
       } else {
+        let emailRe = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         let _this = this
-        userApi.getUserByEmail(this.registerEmail)
+        if (!emailRe.test(val)) {
+          this.sendButtonActive = true
+        } else {
+          userApi.getUserByEmail(this.registerEmail)
           .then(function (res) {
             if (res.data.result) {
               _this.sendButtonActive = true
@@ -109,6 +116,12 @@ export default {
               _this.sendButtonActive = false
             }
           })
+        }
+      }
+    },
+    registerName (val) {
+      if (val != '') {
+        this.buttonActive = false
       }
     }
   },
@@ -153,30 +166,39 @@ export default {
           this.activeStep++
         }
       } else if (this.activeStep == 2) {
-        // 演示用
-        // 登录状态15天后过期
-        // let expireDays = 1000 * 60 * 60 * 24 * 15
-        // let value = this.registerEmail
-        // this.setCookie('session', value, expireDays)
 
-        let _this = this
-        userApi.addUser(this.registerEmail, this.registerPass)
-          .then(function (response) {
-            console.log(response)
-            _this.$notify.success({
-              title: '成功',
-              message: '注册成功'
+        if (this.registerName == '') {
+          this.buttonActive = true;
+          this.errorNameText = '请输入您的昵称';
+        } else {
+          let _this = this
+          userApi.addUser(this.registerEmail, this.registerPass, this.registerName)
+            .then(function (response) {
+              console.log(response)
+              _this.$notify.success({
+                title: '成功',
+                message: '注册成功'
+              })
+              // 登录状态15天后过期
+              let expireDays = 1000 * 60 * 60 * 24 * 15
+              let userInfo = {
+                email: _this.registerEmail,
+                name: _this.registerName,
+                uid: response.data.uid
+              }
+              _this.setCookie('uid', response.data.uid, expireDays)
+              _this.$store.commit('DOLOGIN', userInfo)
             })
-          })
-          .catch(function (error) {
-            console.log(error)
-            _this.$notify.error({
-              title: '错误',
-              message: '注册失败'
+            .catch(function (error) {
+              console.log(error)
+              _this.$notify.error({
+                title: '错误',
+                message: '注册失败'
+              })
             })
-          })
-        // 登录成功后
-        this.$router.push('/')
+          // 登录成功后
+          this.$router.push('/')
+        }
       }
     },
     handlePrev () {
@@ -219,6 +241,9 @@ export default {
       if (this.registerEmail == '') {
         this.sendButtonActive = true
       }
+      if (this.registerName == '') {
+        this.buttonActive = true
+      }
     },
     sendButtonTextTime () {
       let _this = this
@@ -252,7 +277,7 @@ export default {
 
 .demo-step-button 
   margin-top 12px
-  margin-left 20px
+  margin-left 30px
   
 .register-step-one
   width 280px
@@ -266,7 +291,8 @@ export default {
  .register-step-two
     .password-score
       height 15px
-      width 255px
+      width 240px
+      margin-left 20px
       border 1px solid #ccc
       .password-weak
         height 15px

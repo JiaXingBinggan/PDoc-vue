@@ -10,13 +10,14 @@ export default {
       withCredentials: true
     })
   },
-  addUser (email, pass) {
+  addUser (email, pass, name) {
     return axios({
       method: 'post',
       url: userApi.addUserUrl(),
       data: {
         email: email,
-        pass: pass
+        pass: pass,
+        name: name
       },
       withCredentials: true
     })

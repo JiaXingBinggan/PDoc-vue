@@ -22,7 +22,6 @@
 <script>
 import captcha from '../components/captcha/captcha.vue'
 import authApi from '../api/authApi'
-
 export default {
   name: 'login-view',
   components: {
@@ -71,9 +70,10 @@ export default {
           if (response.data.code == 1) {
             let userInfo = {
               email: _this.account,
-              uid: response.data.uid
+              name: response.data.result.name,
+              uid: response.data.result.uid
             }
-            _this.setCookie('uid', response.data.uid, expireDays)
+            _this.setCookie('uid', response.data.result.uid, expireDays)
             _this.$store.commit('DOLOGIN', userInfo)
             // 登录成功后
             _this.$router.push('/')
