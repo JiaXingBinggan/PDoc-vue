@@ -1,21 +1,21 @@
 <template>
   <div class="login-view">
-  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    <el-form-item label="账户" prop="account">
-      <el-input v-model="ruleForm.account"></el-input>
-    </el-form-item>
-    <el-form-item label="密码" prop="password">
-      <el-input v-model="ruleForm.password" type="password"></el-input>
-    </el-form-item>
-    <el-form-item label="验证码" prop="captcha">
-      <el-input v-model="ruleForm.captcha" type="captcha" class="captchaInput"></el-input>
+  <mu-flexbox class="mt8" orient="vertical">
+    <mu-flexbox-item class="flex-demo">
+      <mu-text-field hintText="账户" :errorText="accountErrorText" icon="person" v-model="account"/>
+    </mu-flexbox-item>
+    <mu-flexbox-item class="flex-demo">
+      <mu-text-field hintText="密码" :errorText="passErrorText" icon="lock" type="password" v-model="password"/>
+    </mu-flexbox-item>
+    <mu-flexbox-item class="flex-demo-captcha">
+      <mu-text-field hintText="验证码" :errorText="captchaErrotText" icon="message" v-model="captcha" @textOverflow="captchaInputOverflow" :maxLength="6" class="captchaInput"/>
       <captcha></captcha>
-    </el-form-item>
-    <el-form-item class="inputButton">
-      <el-button type="primary" @click="userLogin('ruleForm')">登录</el-button>
-      <el-button @click="register()">注册</el-button>
-    </el-form-item>
-  </el-form>
+    </mu-flexbox-item>
+    <mu-flexbox-item class="flex-demo-button">
+      <mu-raised-button label="注册" class="demo-raised-button" @click="register"/>
+      <mu-raised-button label="登录" class="demo-raised-button" @click="login" primary/>
+    </mu-flexbox-item>
+  </mu-flexbox>
   </div>
 </template>
 
@@ -30,43 +30,38 @@ export default {
   },
   data () {
     return {
-      ruleForm: {
-        account: '',
-        password: ''
-      },
-      rules: {
-        account: [
-          { required: true, message: '请输入帐号', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入账户密码', trigger: 'blur' }
-        ],
-        captcha: [
-          { required: true, message: '请输入验证码', trigger: 'blur' },
-           { min: 6, max: 6, message: '长度为6个字符', trigger: 'blur' }
-        ]
-      }
+      account: '',
+      password: '',
+      captcha: '',
+      accountErrorText: '',
+      passErrorText: '',
+      captchaErrotText: ''
     }
   },
   methods: {
     login () {
-      if (this.ruleForm.account !== '' && this.ruleForm.password !== '') {
+      if (this.account !== '' && this.password !== '' && this.captcha) {
         this.toLogin()
+      } else {
+        this.$notify.error({
+          title: '错误',
+          message: '您未正确填完登录信息!'
+        })
       }
     },
     toLogin () {
       this.userInfo = {
-        email: this.ruleForm.account
+        email: this.account
       }
       // 登录状态15天后过期
       let expireDays = 1000 * 60 * 60 * 24 * 15
 
       let _this = this
-      authApi.login(this.ruleForm.account, this.ruleForm.password, this.ruleForm.captcha)
+      authApi.login(this.account, this.password, this.captcha)
         .then(function (response) {
           if (response.data.code == 1) {
             let userInfo = {
-              email: _this.ruleForm.account,
+              email: _this.account,
               uid: response.data.uid
             }
             _this.setCookie('uid', response.data.uid, expireDays)
@@ -81,17 +76,11 @@ export default {
           }
         })
     },
-    userLogin (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.login()
-        } else {
-          return false
-        }
-      })
-    },
     register () {
       this.$router.push('/register')
+    },
+    captchaInputOverflow (isOverflow) {
+      this.inputErrorText = isOverflow ? '超过啦！！！！' : ''
     }
   }
 }
@@ -107,6 +96,19 @@ export default {
   .inputButton
     margin-left 80px
 .captchaInput
-  width 200px
+  width 185px
   float left
+.mt8 
+  margin-top 8px
+.flex-demo 
+  height 60px
+  text-align center
+  line-height 32px
+.flex-demo-captcha
+  padding-left 70px
+.flex-demo-button
+  height 60px
+  line-height 32px
+  text-align center
+  padding-left 40px
 </style>

@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
+import 'muse-ui/dist/theme-teal.css' // 使用 carbon 主题
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import moment from 'moment'
