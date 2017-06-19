@@ -43,13 +43,13 @@ export default {
   font-family Arial
   font-style italic
   color blue
-  font-size 16px
+  font-size 18px
   border 0
   letter-spacing 3px
   font-weight bolder           
   float left           
   cursor pointer
-  width 75px
+  width 95px
   height 37px
   line-height 35px
   text-align center

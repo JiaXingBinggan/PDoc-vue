@@ -8,7 +8,7 @@
       <mu-text-field hintText="密码" :errorText="passErrorText" icon="lock" type="password" v-model="password"/>
     </mu-flexbox-item>
     <mu-flexbox-item class="flex-demo-captcha">
-      <mu-text-field hintText="验证码" :errorText="captchaErrotText" icon="message" v-model="captcha" @textOverflow="captchaInputOverflow" :maxLength="6" class="captchaInput"/>
+      <mu-text-field hintText="验证码" :errorText="captchaErrorText" icon="message" v-model="captcha" @textOverflow="captchaInputOverflow" :maxLength="6" class="captchaInput"/>
       <captcha></captcha>
     </mu-flexbox-item>
     <mu-flexbox-item class="flex-demo-button">
@@ -35,11 +35,20 @@ export default {
       captcha: '',
       accountErrorText: '',
       passErrorText: '',
-      captchaErrotText: ''
+      captchaErrorText: ''
     }
   },
   methods: {
     login () {
+      if (this.account == '') {
+        this.accountErrorText = '请输入您的用户名'
+      }
+      if (this.password == '') {
+        this.passErrorText = '请输入您的密码'
+      }
+      if (this.captcha == '') {
+        this.captchaErrorText = '请输入验证码'
+      }
       if (this.account !== '' && this.password !== '' && this.captcha) {
         this.toLogin()
       } else {
@@ -80,7 +89,7 @@ export default {
       this.$router.push('/register')
     },
     captchaInputOverflow (isOverflow) {
-      this.inputErrorText = isOverflow ? '超过啦！！！！' : ''
+      this.captchaErrorText = isOverflow ? '超过啦！！！！' : ''
     }
   }
 }
@@ -96,7 +105,7 @@ export default {
   .inputButton
     margin-left 80px
 .captchaInput
-  width 185px
+  width 165px
   float left
 .mt8 
   margin-top 8px
