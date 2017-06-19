@@ -1,6 +1,6 @@
-# 故障处置系统
+# 基于session的vue登录
 
-> 故障处置系统的vue-demo
+> 基于session的vue登录
 
 ## Build Setup
 
