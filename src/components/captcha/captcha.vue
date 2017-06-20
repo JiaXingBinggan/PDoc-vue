@@ -23,7 +23,6 @@ export default {
       var _this = this
       captchaApi.getImgCaptcha()
         .then(function (response) {
-          console.log(response)
           _this.captcha = response.data.result
         })
     }

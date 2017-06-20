@@ -8,8 +8,8 @@
       <mu-text-field hintText="密码" :errorText="passErrorText" type="password" v-model="password"/>
     </mu-flexbox-item>
     <mu-flexbox-item class="flex-demo-captcha">
-      <!-- <mu-text-field hintText="验证码" :errorText="captchaErrorText" icon="message" v-model="captcha" @textOverflow="captchaInputOverflow" :maxLength="6" class="captchaInput"/>
-      <captcha></captcha> -->
+      <!-- <mu-text-field hintText="验证码" :errorText="captchaErrorText" icon="message" v-model="captcha" @textOverflow="captchaInputOverflow" :maxLength="6" class="captchaInput"/> -->
+      <!-- <captcha></captcha> -->
       <div id="captcha">
         <p id="wait" class="show">正在加载验证码......</p>
       </div>

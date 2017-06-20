@@ -79,7 +79,6 @@ export default {
   watch: {
     registerEmailCaptcha: function (val) {
       let _this = this
-      console.log(this.registerEmailCaptcha)
       if (this.registerEmailCaptcha.length == 4) {
         captchaApi.vaildEmailCaptcha(this.registerEmail, this.registerEmailCaptcha)
           .then(function (response) {

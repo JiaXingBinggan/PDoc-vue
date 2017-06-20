@@ -72,7 +72,8 @@ export default {
         })
     },
     userInfo () {
-      this.$router.push('/userinfo');
+      this.$router.push('/userinfo/account-info');
+      this.toggle()
     }
   }
 }

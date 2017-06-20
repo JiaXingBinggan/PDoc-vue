@@ -12,7 +12,9 @@ export const userApi = {
   // GET
   getSingleUserUrl: id => '/api/users/' + id,
   // GET
-  getUserListUrl: id => '/api/users/userList/'
+  getUserListUrl: id => '/api/users/userList/',
+  // PUT
+  modifyUserPassUrl: id => '/api/users/password/' + id
 }
 
 export const authApi = {

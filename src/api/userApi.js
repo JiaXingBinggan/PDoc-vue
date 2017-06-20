@@ -64,5 +64,17 @@ export default {
       url: url,
       withCredentials: true
     })
+  },
+  modifyUserPass (id, pass, cap) {
+    let url = userApi.modifyUserPassUrl(id)
+    return axios({
+      method: 'put',
+      url: url,
+      data: {
+        password: pass,
+        imgCaptcha: cap
+      },
+      withCredentials: true
+    })
   }
 }
