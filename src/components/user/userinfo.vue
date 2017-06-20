@@ -5,15 +5,17 @@
 	    	<div class="info-menu">
 	    		<mu-paper class="demo-menu">
 				    <mu-menu>
-				      <mu-menu-item title="个人信息"/>
-				      <mu-menu-item title="账户修改"/>
-				      <mu-menu-item title="修改密码"/>
+				      <mu-menu-item title="个人信息" @click="goToUser(1)"/>
+				      <mu-menu-item title="账户修改" @click="goToUser(2)"/>
+				      <mu-menu-item title="修改密码" @click="goToUser(3)"/>
 				    </mu-menu>
 				  </mu-paper>
 	    	</div>
 	    </mu-col>
 	    <mu-col width="100" tablet="50" desktop="80">
-	    	<div class="info-block"></div>
+	    	<div class="info-block">
+            <router-view name="userView"></router-view>
+        </div>
 	    </mu-col>
 	  </mu-row>
   </div>
@@ -25,6 +27,19 @@ export default {
   data () {
     return {
       msg: '这是用户信息页面'
+    }
+  },
+  methods: {
+    goToUser (type) {
+      if (type == 1) {
+        this.$router.push('/userinfo/account-info');
+      }
+      if (type == 2) {
+        this.$router.push('/userinfo/account-manage');
+      }
+      if (type == 3) {
+        this.$router.push('/userinfo/account-password');
+      }
     }
   }
 }

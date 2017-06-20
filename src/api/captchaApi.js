@@ -29,5 +29,13 @@ export default {
       url: url,
       withCredentials: true
     })
+  },
+  getGtCaptcha () {
+    let url = captchaApi.getGtCaptchaUrl()
+    return axios({
+      method: 'get',
+      url: url,
+      withCredentials: true
+    })
   }
 }

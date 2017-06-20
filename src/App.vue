@@ -46,7 +46,7 @@ export default {
       return this.localStorage.login ? this.localStorage.login : this.$store.state.user.login
     },
     userName () {
-      return this.$store.state.user.userInfo.name
+      return this.$store.state.user.userInfo.name ? this.$store.state.user.userInfo.name : this.localStorage.userInfo.name
     }
   },
   methods: {
