@@ -1,5 +1,7 @@
 <template>
   <div class="account-pass">
+  <mu-card>
+    <mu-card-title title="修改密码" subTitle=""/>
   	<mu-flexbox class="mt8" orient="vertical">
       <mu-flexbox-item class="flex-demo">
         <mu-text-field v-model="registerEmail" hintText="请输入您的注册邮箱" :errorText="errorRegisterEmail" icon="email"/>
@@ -18,10 +20,11 @@
         <mu-text-field hintText="验证码" :errorText="errorImgCaptcha" icon="message" v-model="imgCaptcha" @textOverflow="captchaInputOverflow" :maxLength="6" class="captchaInput"/>
         <captcha></captcha>
       </mu-flexbox-item>
-      <mu-flexbox-item class="flex-demo">
+      <mu-flexbox-item class="flex-demo-button">
         <mu-raised-button @click="modifyPass" class="demo-raised-button" label="完成" primary/>
       </mu-flexbox-item>
     </mu-flexbox>
+  </mu-card>
   </div>
 </template>
 
@@ -144,6 +147,7 @@ export default {
 .account-pass
   width 100%
   height 100%
+  text-align left
 .captchaInput
   width 165px
   float left
@@ -152,4 +156,7 @@ export default {
 .flex-demo 
   height 50px
   line-height 32px
+.flex-demo-button
+  height 50px
+  margin-left 40px
 </style>

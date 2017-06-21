@@ -1,25 +1,25 @@
 <template>
   <div class="account-info">
-    <mu-flexbox class="mt8" orient="vertical">
-      <mu-flexbox-item order="0" class="flex-demo">
-        9
-      </mu-flexbox-item>
-      <mu-flexbox-item order="2" class="flex-demo">
-        10
-      </mu-flexbox-item>
-      <mu-flexbox-item order="0" class="flex-demo">
-        9
-      </mu-flexbox-item>
-      <mu-flexbox-item order="2" class="flex-demo">
-        10
-      </mu-flexbox-item>
-      <mu-flexbox-item order="0" class="flex-demo">
-        9
-      </mu-flexbox-item>
-      <mu-flexbox-item order="2" class="flex-demo">
-        10
-      </mu-flexbox-item>
-    </mu-flexbox>
+    <mu-card>
+      <mu-content-block>
+        <mu-card-header title="halomoto" subTitle="729869585@qq.com">
+          <mu-avatar slot="avatar" icon="user"/>
+        </mu-card-header>
+        <mu-sub-header>个人简介</mu-sub-header>
+        <mu-card-text>
+          男
+        </mu-card-text>
+        <mu-card-text>
+          2017-06-17
+        </mu-card-text>
+        <mu-card-text>
+          散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
+          调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
+          似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光，
+          找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光！
+        </mu-card-text>
+      </mu-content-block>
+    </mu-card>
   </div>
 </template>
 
@@ -38,11 +38,5 @@ export default {
 .account-info
   width 100%
   height 100%
-.mt8 
-  margin-top 0px
-.flex-demo 
-  height 50px
-  text-align center
-  line-height 32px
-  background-color #e0e0e0
+  text-align left
 </style>

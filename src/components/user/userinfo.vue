@@ -47,7 +47,7 @@ export default {
 
 <style lang="stylus" scoped>
 .user-info
-  width 1000px
+  width 900px
   height 600px
   margin 0px auto 
   margin-top 20px

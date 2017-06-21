@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import indexView from '../views/indexView.vue'
-import otherView from '../views/otherView.vue'
 import loginView from '../views/loginView.vue'
 import registerView from '../views/registerView.vue'
 import userinfo from '../components/user/userinfo.vue'
@@ -16,10 +15,6 @@ export default new Router({
     {
       path: '/',
       component: indexView
-    },
-    {
-      path: '/other',
-      component: otherView
     },
     {
       path: '/login',
