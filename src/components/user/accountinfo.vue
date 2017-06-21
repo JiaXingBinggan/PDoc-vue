@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     getUserInfo () {
+      console.log(this.$store.state.user.userInfo)
       let id = this.getCookie('uid')
       let _this = this
       userApi.getSingleUser(id)
@@ -52,12 +53,26 @@ export default {
             _this.userEmail = res.data.result.email;
             if (res.data.result.sex == 0) {
               _this.userSex = '男'
-            } else {
+            } else if (res.data.result.sex == 1) {
               _this.userSex = '女'
+            } else {
+              _this.userSex = '暂无'
             }
-            _this.birthDate = res.data.result.birthdate;
-            _this.telphone = res.data.result.tel;
-            _this.userDesc = res.data.result.desc;
+            if (res.data.result.birthdate == null) {
+              _this.birthdate = '暂无'
+            } else {
+              _this.birthDate = res.data.result.birthdate
+            }
+            if (res.data.result.tel == null) {
+              _this.telphone = '暂无'
+            } else {
+              _this.telphone = res.data.result.tel
+            }
+            if (res.data.result.desc == null) {
+              _this.userDesc = '暂无'
+            } else {
+              _this.userDesc = res.data.result.desc;
+            }
           }
         })
     }

@@ -78,12 +78,13 @@ export default {
         authApi.login(this.account, this.password)
           .then(function (response) {
             if (response.data.code == 1) {
+              console.log(response)
               let userInfo = {
                 email: _this.account,
                 name: response.data.result.name,
-                uid: response.data.result.uid
+                uid: response.data.result.id
               }
-              _this.setCookie('uid', response.data.result.uid, expireDays)
+              _this.setCookie('uid', response.data.result.id, expireDays)
               _this.$store.commit('DOLOGIN', userInfo)
               console.log('ddd')
               // 登录成功后

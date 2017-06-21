@@ -6,6 +6,10 @@ const state = {
   userInfo: { // 保存用户信息
     email: null,
     name: null,
+    sex: null,
+    tel: null,
+    birthdate: null,
+    desc: null,
     uid: null
   }
 }

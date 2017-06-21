@@ -49,6 +49,12 @@ export default {
       errorTelText: ''
     }
   },
+  computed: {
+    localStorage () {
+      // window.localStorege.user转换为json
+      return JSON.parse(window.localStorage.user || '[]')
+    }
+  },
   watch: {
     updateTel: function(val) {
       let re = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/
@@ -63,11 +69,23 @@ export default {
   },
   methods: {
     updateUserInfo () {
-      let id = this.$store.state.user.userInfo.uid
-      console.log(this.updateSex, this.updateTel)
+      let id = this.localStorage.userInfo.uid
+      console.log(id)
+      let _this = this
+      let updateUserInfo = {
+        email: this.localStorage.userInfo.email,
+        name: this.updateName ? this.updateName : this.localStorage.userInfo.name,
+        sex: this.updateSex,
+        tel: this.updateTel,
+        birthdate: this.updateBirthDate,
+        desc: this.updateDesc,
+        uid: this.localStorage.userInfo.uid
+      }
       userApi.updateUser(id, this.updateName, this.updateTel, this.updateBirthDate, this.updateSex, this.updateDesc)
         .then(function (res) {
           console.log(res)
+          _this.$store.commit('DOLOGIN', updateUserInfo)
+          _this.$router.push('/userinfo/account-info');
         })
     },
     reset () {

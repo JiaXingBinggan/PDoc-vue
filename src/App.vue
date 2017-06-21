@@ -62,7 +62,8 @@ export default {
           console.log(response)
           let userInfo = {
             email: null,
-            uid: null
+            uid: null,
+            name: null
           }
           _this.delCookie('uid');
           _this.$store.commit('UPDATEUSER', userInfo);

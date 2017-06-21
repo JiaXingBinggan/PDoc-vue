@@ -183,9 +183,9 @@ export default {
               let userInfo = {
                 email: _this.registerEmail,
                 name: _this.registerName,
-                uid: response.data.uid
+                uid: response.data.result
               }
-              _this.setCookie('uid', response.data.uid, expireDays)
+              _this.setCookie('uid', response.data.result, expireDays)
               _this.$store.commit('DOLOGIN', userInfo)
             })
             .catch(function (error) {
