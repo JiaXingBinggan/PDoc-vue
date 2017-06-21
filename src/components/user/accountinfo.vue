@@ -2,22 +2,19 @@
   <div class="account-info">
     <mu-card>
       <mu-content-block>
-        <mu-card-header title="halomoto" subTitle="729869585@qq.com">
+        <mu-card-header :title="userName" :subTitle="userEmail">
           <mu-avatar slot="avatar" icon="person"/>
         </mu-card-header>
         <mu-card-text>
           <mu-row gutter>
-            <mu-col width="100" tablet="20" desktop="20"><b>性别</b><span> 男</span></mu-col>
-            <mu-col width="100" tablet="40" desktop="40"><b>出生日期</b><span> 2017-06-17</span></mu-col>
-            <mu-col width="100" tablet="40" desktop="40"><b>电话号码</b><span> 13565475895</span></mu-col>
+            <mu-col width="100" tablet="20" desktop="20"><b>性别</b><span> {{userSex}}</span></mu-col>
+            <mu-col width="100" tablet="40" desktop="40"><b>出生日期</b><span> {{birthDate}}</span></mu-col>
+            <mu-col width="100" tablet="40" desktop="40"><b>电话号码</b><span> {{telphone}}</span></mu-col>
           </mu-row>
           </mu-card-text>
         <mu-card-text>
             <mu-row gutter>
-            <mu-col width="100" tablet="100" desktop="100"><b>个人简介</b> <span>散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-          调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-          似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光，
-          找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光！</span></mu-col>
+            <mu-col width="100" tablet="100" desktop="100"><b>个人简介</b> <span>{{userDesc}}</span></mu-col>
           </mu-row>
         </mu-card-text>
       </mu-content-block>
@@ -26,11 +23,43 @@
 </template>
 
 <script>
+import userApi from '../../api/userApi'
 export default {
   name: 'account-info',
   data () {
     return {
-      msg: '这是用户信息页面'
+      msg: '这是用户信息页面',
+      userName: '',
+      userEmail: '',
+      userSex: '',
+      birthDate: '',
+      telphone: '',
+      userDesc: ''
+    }
+  },
+  created () {
+    this.getUserInfo()
+  },
+  methods: {
+    getUserInfo () {
+      let id = this.getCookie('uid')
+      let _this = this
+      userApi.getSingleUser(id)
+        .then(function (res) {
+          console.log(res)
+          if (res.data.code == 1) {
+            _this.userName = res.data.result.name;
+            _this.userEmail = res.data.result.email;
+            if (res.data.result.sex == 0) {
+              _this.userSex = '男'
+            } else {
+              _this.userSex = '女'
+            }
+            _this.birthDate = res.data.result.birthdate;
+            _this.telphone = res.data.result.tel;
+            _this.userDesc = res.data.result.desc;
+          }
+        })
     }
   }
 }

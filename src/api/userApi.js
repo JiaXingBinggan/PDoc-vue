@@ -22,13 +22,17 @@ export default {
       withCredentials: true
     })
   },
-  updateUser (id, email) {
+  updateUser (id, name, tel, birthdate, sex, desc) {
     let url = userApi.updateUserUrl(id)
     return axios({
       method: 'put',
       url: url,
       data: {
-        email: email
+        name: name,
+        tel: tel,
+        birthdate: birthdate,
+        sex: sex,
+        desc: desc
       },
       withCredentials: true
     })
