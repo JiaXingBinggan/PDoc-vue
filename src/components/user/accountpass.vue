@@ -4,20 +4,20 @@
     <mu-card-title title="修改密码" subTitle=""/>
   	<mu-flexbox class="mt8" orient="vertical">
       <mu-flexbox-item class="flex-demo">
-        <mu-text-field v-model="registerEmail" hintText="请输入您的注册邮箱" :errorText="errorRegisterEmail" icon="email"/>
+        <mu-text-field v-model="registerEmail" hintText="请输入您的注册邮箱" :errorText="errorRegisterEmail" class="textInput"/>
         <mu-raised-button :label="sendButtonText" @click="sendEmailCaptcha" class="demo-raised-button" :disabled="sendButtonActive" primary/>
       </mu-flexbox-item>
       <mu-flexbox-item class="flex-demo">
-        <mu-text-field v-model="emailCaptcha" hintText="请输入邮箱验证码" :errorText="errorEmailCaptcha" icon="message"/>
+        <mu-text-field v-model="emailCaptcha" hintText="请输入邮箱验证码" :errorText="errorEmailCaptcha" class="textInput"/>
       </mu-flexbox-item>
       <mu-flexbox-item class="flex-demo">
-        <mu-text-field v-model="newPassword" hintText="请输入新密码" type="password" :errorText="errorPassword" icon="lock"/>
+        <mu-text-field v-model="newPassword" hintText="请输入新密码" type="password" :errorText="errorPassword" class="textInput"/>
       </mu-flexbox-item>
       <mu-flexbox-item class="flex-demo">
-        <mu-text-field v-model="newPasswordRe" hintText="请确认您输入的新密码" type="password" :errorText="errorPasswordRe" icon="lock"/>
+        <mu-text-field v-model="newPasswordRe" hintText="请确认您输入的新密码" type="password" :errorText="errorPasswordRe" class="textInput"/>
       </mu-flexbox-item>
       <mu-flexbox-item class="flex-demo">
-        <mu-text-field hintText="验证码" :errorText="errorImgCaptcha" icon="message" v-model="imgCaptcha" @textOverflow="captchaInputOverflow" :maxLength="6" class="captchaInput"/>
+        <mu-text-field hintText="验证码" :errorText="errorImgCaptcha" v-model="imgCaptcha" @textOverflow="captchaInputOverflow" :maxLength="6" class="captchaInput textInput"/>
         <captcha></captcha>
       </mu-flexbox-item>
       <mu-flexbox-item class="flex-demo-button">
@@ -148,6 +148,8 @@ export default {
   width 100%
   height 100%
   text-align left
+.textInput
+  margin-left 20px
 .captchaInput
   width 165px
   float left

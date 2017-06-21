@@ -48,7 +48,7 @@ export default {
 <style lang="stylus" scoped>
 .user-info
   width 900px
-  height 600px
+  height 800px
   margin 0px auto 
   margin-top 20px
 .user-info div[class*="col-"] 

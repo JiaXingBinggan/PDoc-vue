@@ -3,15 +3,17 @@
     <mu-card>
       <mu-row gutter>
         <mu-col width="100" tablet="50" desktop="60">
-          <mu-card-title title="信息修改" subTitle=""/>
-          <mu-sub-header>昵称</mu-sub-header>
-          <mu-text-field hintText="昵称修改" class="infoInput"/>
-          <mu-sub-header>性别</mu-sub-header>
+          <mu-card-title title="信息管理" subTitle=""/>
+          <mu-sub-header><b>昵称</b></mu-sub-header>
+          <mu-text-field class="infoInput"/>
+          <mu-sub-header><b>性别</b></mu-sub-header>
           <mu-radio label="男" name="group" nativeValue="male" v-model="userMale" class="infoInput"/>
           <mu-radio label="女" name="group" nativeValue="female" v-model="userMale"  class="infoInput"/>
-          <mu-sub-header>出生日期</mu-sub-header>
-          <mu-date-picker mode="landscape" hintText="出生日期" class="infoInput"/>
-          <mu-sub-header>个人简介</mu-sub-header>
+          <mu-sub-header><b>电话号码</b></mu-sub-header>
+          <mu-text-field class="infoInput"/>
+          <mu-sub-header><b>出生日期</b></mu-sub-header>
+          <mu-date-picker mode="landscape" class="infoInput"/>
+          <mu-sub-header><b>个人简介</b></mu-sub-header>
           <mu-text-field multiLine :rows="3" :rowsMax="6" class="infoInput"/>
           <mu-card-actions>
             <mu-raised-button label="提交" primary/> 
