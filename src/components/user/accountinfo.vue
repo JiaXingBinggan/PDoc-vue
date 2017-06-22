@@ -3,7 +3,7 @@
     <mu-card>
       <mu-content-block>
         <mu-card-header :title="userName" :subTitle="userEmail">
-          <mu-avatar slot="avatar" icon="person"/>
+          <mu-avatar slot="avatar" :icon="avatarIcon" :src="portraitUrl"/>
         </mu-card-header>
         <mu-card-text>
           <mu-row gutter>
@@ -24,6 +24,7 @@
 
 <script>
 import userApi from '../../api/userApi'
+import imgApi from '../../api/imgApi'
 export default {
   name: 'account-info',
   data () {
@@ -34,7 +35,9 @@ export default {
       userSex: '',
       birthDate: '',
       telphone: '',
-      userDesc: ''
+      userDesc: '',
+      portraitUrl: '',
+      avatarIcon: ''
     }
   },
   created () {
@@ -42,12 +45,10 @@ export default {
   },
   methods: {
     getUserInfo () {
-      console.log(this.$store.state.user.userInfo)
       let id = this.getCookie('uid')
       let _this = this
       userApi.getSingleUser(id)
         .then(function (res) {
-          console.log(res)
           if (res.data.code == 1) {
             _this.userName = res.data.result.name;
             _this.userEmail = res.data.result.email;
@@ -73,6 +74,27 @@ export default {
             } else {
               _this.userDesc = res.data.result.desc;
             }
+            imgApi.getUserPortrait(id)
+              .then(function (response) {
+                if (res.data.code == 1) {
+                  _this.portraitUrl = '/portrait/' + response.data.result;
+                  _this.avatarIcon = '';
+                }
+                if (res.data.code == -1) {
+                  _this.portraitUrl = '';
+                  _this.avatarIcon = 'person';
+                  _this.$notify.error({
+                    title: '错误',
+                    message: '获取头像失败'
+                  })
+                }
+              })
+          }
+          if (res.data.code == -1) {
+            _this.$notify.error({
+              title: '错误',
+              message: '获取信息失败'
+            })
           }
         })
     }

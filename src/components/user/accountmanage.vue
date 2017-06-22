@@ -24,8 +24,10 @@
           <div class="face-area">
             <mu-card-title title="头像" subTitle=""/>
             <mu-card-media>
-              <img height="100" src="../../assets/captchaback.png" />
-              <mu-raised-button label="上传图片" fullWidth/>
+              <img height="120" :src="imgSrcUrl"/>
+              <mu-raised-button class="demo-raised-button" label="选择文件" fullWidth>
+                <input type="file" class="file-button" @change="uploadImg">
+              </mu-raised-button>
             </mu-card-media>
           </div>
         </mu-col>
@@ -35,6 +37,7 @@
 </template>
 
 <script>
+import imgApi from '../../api/imgApi'
 import userApi from '../../api/userApi'
 export default {
   name: 'account-manage',
@@ -46,13 +49,20 @@ export default {
       updateSex: '',
       updateBirthDate: '',
       updateDesc: '',
-      errorTelText: ''
+      errorTelText: '',
+      imgSrcUrl: ''
     }
+  },
+  created () {
+    this.getPortrait()
   },
   computed: {
     localStorage () {
       // window.localStorege.user转换为json
       return JSON.parse(window.localStorage.user || '[]')
+    },
+    userId () {
+      return this.localStorage.userInfo.uid
     }
   },
   watch: {
@@ -69,8 +79,6 @@ export default {
   },
   methods: {
     updateUserInfo () {
-      let id = this.localStorage.userInfo.uid
-      console.log(id)
       let _this = this
       let updateUserInfo = {
         email: this.localStorage.userInfo.email,
@@ -81,7 +89,7 @@ export default {
         desc: this.updateDesc,
         uid: this.localStorage.userInfo.uid
       }
-      userApi.updateUser(id, this.updateName, this.updateTel, this.updateBirthDate, this.updateSex, this.updateDesc)
+      userApi.updateUser(this.userId, this.updateName, this.updateTel, this.updateBirthDate, this.updateSex, this.updateDesc)
         .then(function (res) {
           console.log(res)
           _this.$store.commit('DOLOGIN', updateUserInfo)
@@ -94,6 +102,50 @@ export default {
       this.updateUserMale = ''
       this.updateBirthDate = ''
       this.updateDesc = ''
+    },
+    uploadImg: function (event) {
+      let _this = this
+      let formdata = new FormData();
+      formdata.append('file', event.target.files[0]);
+      if (formdata) {
+        imgApi.addUserPortrait(this.userId, formdata)
+        .then(function (res) {
+          if (res.data.code == 1) {
+            _this.$notify.success({
+              title: '成功',
+              message: '头像上传成功'
+            })
+            _this.getPortrait()
+          }
+          if (res.data.code == -1) {
+            _this.$notify.error({
+              title: '失败',
+              message: '头像上传失败'
+            })
+          }
+        })
+      } else {
+        _this.$notify.error({
+          title: '错误',
+          message: '请选择您想要上传的文件'
+        })
+      }
+    },
+    getPortrait () {
+      let _this = this
+      imgApi.getUserPortrait(this.userId)
+        .then(function (res) {
+          console.log(res)
+          if (res.data.code == 1) {
+            _this.imgSrcUrl = '/portrait/' + res.data.result
+          }
+          if (res.data.code == -1) {
+            _this.$notify.error({
+              title: '错误',
+              message: '获取头像失败'
+            })
+          }
+        })
     }
   }
 }
@@ -108,4 +160,13 @@ export default {
   margin 20px
 .infoInput
   margin-left 15px
+.demo-raised-button
+  margin 0px auto
+.file-button
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  opacity 0
 </style>

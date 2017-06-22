@@ -80,5 +80,13 @@ export default {
       },
       withCredentials: true
     })
+  },
+  addUserPortrait (id, formdata) {
+    let url = userApi.addUserPortraitUrl(id)
+    return axios({
+      method: 'post',
+      url: url,
+      data: formdata
+    })
   }
 }

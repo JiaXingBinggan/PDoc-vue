@@ -34,3 +34,10 @@ export const captchaApi = {
   // GET
   getGtCaptchaUrl: () => '/api/captchas/gtCaptcha'
 }
+
+export const imgApi = {
+  // POST
+  imgPortraitUrl: id => '/api/img/portrait/' + id,
+  // GET
+  getImgPortraitUrl: id => '/api/img/portrait/' + id
+}
