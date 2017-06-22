@@ -85,8 +85,7 @@ export default {
                 uid: response.data.result.id
               }
               _this.setCookie('uid', response.data.result.id, expireDays)
-              _this.$store.commit('DOLOGIN', userInfo)
-              console.log('ddd')
+              _this.$store.dispatch('dologin', userInfo)
               // 登录成功后
               _this.$router.push('/')
             } else {

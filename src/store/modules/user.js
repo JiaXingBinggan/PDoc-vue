@@ -21,13 +21,29 @@ const mutations = {
     window.localStorage.setItem('user', JSON.stringify(state))
   },
   [types.UPDATEUSER] (state, newUser) {
-    state.login = false;
     state.userInfo = newUser;
+    window.localStorage.setItem('user', JSON.stringify(state))
+  },
+  [types.DOLOGINOUT] (state, userInfo) {
+    state.login = false;
+    state.userInfo = userInfo;
     window.localStorage.removeItem('user')
   }
 }
 
+const actions = {
+  dologin ({commit}, user) {
+    commit(types.DOLOGIN, user)
+  },
+  dologout ({commit}, user) {
+    commit(types.DOLOGINOUT, user)
+  },
+  updateuser ({commit}, user) {
+    commit(types.UPDATEUSER, user)
+  }
+}
 export default {
   state,
-  mutations
+  mutations,
+  actions
 }

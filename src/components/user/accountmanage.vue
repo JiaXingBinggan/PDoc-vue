@@ -92,7 +92,7 @@ export default {
       userApi.updateUser(this.userId, this.updateName, this.updateTel, this.updateBirthDate, this.updateSex, this.updateDesc)
         .then(function (res) {
           console.log(res)
-          _this.$store.commit('DOLOGIN', updateUserInfo)
+          _this.$store.dispatch('updateuser', updateUserInfo)
           _this.$router.push('/userinfo/account-info');
         })
     },

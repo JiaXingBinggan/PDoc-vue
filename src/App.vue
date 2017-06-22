@@ -42,7 +42,7 @@ export default {
     },
     loginStatus () {
       // 当存在本地保存的登录状态则使用本地登录状态 ,如果登出则本地登录状态被撤回此时使用store保存的状态
-      return this.localStorage.login ? this.localStorage.login : this.$store.state.user.login
+      return this.$store.state.user.login ? this.$store.state.user.login : this.localStorage.login
     },
     userName () {
       return this.$store.state.user.userInfo.name ? this.$store.state.user.userInfo.name : this.localStorage.userInfo.name
@@ -66,7 +66,7 @@ export default {
             name: null
           }
           _this.delCookie('uid');
-          _this.$store.commit('UPDATEUSER', userInfo);
+          _this.$store.dispatch('dologout', userInfo);
           _this.$router.push('/login');
           _this.toggle()
         })
