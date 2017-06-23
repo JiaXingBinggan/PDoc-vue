@@ -1,4 +1,5 @@
 import * as types from '../mutation-types'
+import Store from '../../utils/store'
 
 const state = {
   domain: 'http://localhost:8080', // 保存后台请求的地址
@@ -18,16 +19,16 @@ const mutations = {
   [types.DOLOGIN] (state, userInfo) {
     state.login = true;
     state.userInfo = userInfo;
-    window.localStorage.setItem('user', JSON.stringify(state))
+    Store.save('user', state);
   },
   [types.UPDATEUSER] (state, newUser) {
     state.userInfo = newUser;
-    window.localStorage.setItem('user', JSON.stringify(state))
+    Store.save('user', state);
   },
   [types.DOLOGINOUT] (state, userInfo) {
     state.login = false;
     state.userInfo = userInfo;
-    window.localStorage.removeItem('user')
+    Store.remove('user');
   }
 }
 

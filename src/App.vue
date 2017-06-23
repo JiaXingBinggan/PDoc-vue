@@ -28,6 +28,7 @@
 
 <script>
 import authApi from './api/authApi'
+import Store from './utils/store'
 export default {
   name: 'app',
   data () {
@@ -35,17 +36,24 @@ export default {
       open: false
     }
   },
+  beforeCreate () {
+    let user = Store.fetch('user');
+    if (user.length == 0) {
+    } else {
+      this.$store.dispatch('dologin', user.userInfo);
+    }
+  },
   computed: {
     localStorage () {
       // window.localStorege.user转换为json
-      return JSON.parse(window.localStorage.user || '[]')
+      return Store.fetch('user')
     },
     loginStatus () {
       // 当存在本地保存的登录状态则使用本地登录状态 ,如果登出则本地登录状态被撤回此时使用store保存的状态
-      return this.$store.state.user.login ? this.$store.state.user.login : this.localStorage.login
+      return this.$store.state.user.login
     },
     userName () {
-      return this.$store.state.user.userInfo.name ? this.$store.state.user.userInfo.name : this.localStorage.userInfo.name
+      return this.$store.state.user.userInfo.name
     }
   },
   methods: {
