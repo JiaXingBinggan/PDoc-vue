@@ -67,7 +67,6 @@ export default {
       let _this = this
       authApi.loginOut()
         .then(function (response) {
-          console.log(response)
           let userInfo = {
             email: null,
             uid: null,

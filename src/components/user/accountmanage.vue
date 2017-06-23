@@ -68,12 +68,14 @@ export default {
   watch: {
     updateTel: function(val) {
       let re = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/
-      if (val.length < 11) {
-        this.errorTelText = '电话号码长度不够'
-      } else if (val.length == 11 && !re.test(val)) {
-        this.errorTelText = '电话号码格式有问题哟'
-      } else {
-        this.errorTelText = ''
+      if (val) {
+        if (val.length < 11) {
+          this.errorTelText = '电话号码长度不够'
+        } else if (val.length == 11 && !re.test(val)) {
+          this.errorTelText = '电话号码格式有问题哟'
+        } else {
+          this.errorTelText = ''
+        }
       }
     }
   },
@@ -91,7 +93,6 @@ export default {
       }
       userApi.updateUser(this.userId, this.updateName, this.updateTel, this.updateBirthDate, this.updateSex, this.updateDesc)
         .then(function (res) {
-          console.log(res)
           _this.$store.dispatch('updateuser', updateUserInfo)
           _this.$router.push('/userinfo/account-info');
         })
@@ -133,17 +134,26 @@ export default {
     },
     getPortrait () {
       let _this = this
-      imgApi.getUserPortrait(this.userId)
-        .then(function (res) {
-          console.log(res)
-          if (res.data.code == 1) {
-            _this.imgSrcUrl = '/portrait/' + res.data.result
-          }
-          if (res.data.code == -1) {
-            _this.$notify.error({
-              title: '错误',
-              message: '获取头像失败'
-            })
+      userApi.getSingleUser(this.userId)
+        .then(function (response) {
+          if (response.data.code == 1) {
+            _this.updateName = response.data.result.name
+            _this.updateTel = response.data.result.tel
+            _this.updateSex = response.data.result.sex
+            _this.updateBirthDate = response.data.result.birthdate
+            _this.updateDesc = response.data.result.desc
+            imgApi.getUserPortrait(_this.userId)
+              .then(function (res) {
+                if (res.data.code == 1) {
+                  _this.imgSrcUrl = '/portrait/' + res.data.result
+                }
+                if (res.data.code == -1) {
+                  _this.$notify.error({
+                    title: '错误',
+                    message: '获取头像失败'
+                  })
+                }
+              })
           }
         })
     }

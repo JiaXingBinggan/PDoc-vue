@@ -82,16 +82,16 @@ export default {
       if (this.registerEmailCaptcha.length == 4) {
         captchaApi.vaildEmailCaptcha(this.registerEmail, this.registerEmailCaptcha)
           .then(function (response) {
-            _this.buttonActive = false
-            console.log(response)
-          })
-          .catch(function (error) {
-            console.log(error)
-            _this.buttonActive = true
-            _this.$notify.error({
-              title: '错误',
-              message: '验证码不对哟~~~'
-            })
+            if (response.data.code == 1) {
+              _this.buttonActive = false
+            }
+            if (response.data.code == -1) {
+              _this.buttonActive = true
+              _this.$notify.error({
+                title: '错误',
+                message: '验证码不对哟~~~'
+              })
+            }
           })
       } else {
         _this.buttonActive = true
@@ -113,6 +113,7 @@ export default {
               _this.sendButtonText = '您已注册'
             } else {
               _this.sendButtonActive = false
+              _this.sendButtonText = '发送'
             }
           })
         }
@@ -173,27 +174,27 @@ export default {
           let _this = this
           userApi.addUser(this.registerEmail, this.registerPass, this.registerName)
             .then(function (response) {
-              console.log(response)
-              _this.$notify.success({
-                title: '成功',
-                message: '注册成功'
-              })
-              // 登录状态15天后过期
-              let expireDays = 1000 * 60 * 60 * 24 * 15
-              let userInfo = {
-                email: _this.registerEmail,
-                name: _this.registerName,
-                uid: response.data.result
+              if (response.data.code == 1) {
+                _this.$notify.success({
+                  title: '成功',
+                  message: '注册成功'
+                })
+                // 登录状态15天后过期
+                let expireDays = 1000 * 60 * 60 * 24 * 15
+                let userInfo = {
+                  email: _this.registerEmail,
+                  name: _this.registerName,
+                  uid: response.data.result
+                }
+                _this.setCookie('uid', response.data.result, expireDays)
+                _this.$store.commit('DOLOGIN', userInfo)
               }
-              _this.setCookie('uid', response.data.result, expireDays)
-              _this.$store.commit('DOLOGIN', userInfo)
-            })
-            .catch(function (error) {
-              console.log(error)
-              _this.$notify.error({
-                title: '错误',
-                message: '注册失败'
-              })
+              if (response.data.code == -1) {
+                _this.$notify.error({
+                  title: '错误',
+                  message: '注册失败'
+                })
+              }
             })
           // 登录成功后
           this.$router.push('/')
@@ -218,16 +219,16 @@ export default {
       let _this = this
       captchaApi.getEmailCaptcha(this.registerEmail)
         .then(function (response) {
-          console.log(response);
-          _this.sendButtonActive = true
-          _this.sendButtonTextTime()
-        })
-        .catch(function (error) {
-          console.log(error)
-          _this.$notify.error({
-            title: '错误',
-            message: '发送邮件失败'
-          })
+          if (response.data.code == 1) {
+            _this.sendButtonActive = true
+            _this.sendButtonTextTime()
+          }
+          if (response.data.code == -1) {
+            _this.$notify.error({
+              title: '错误',
+              message: '发送邮件失败'
+            })
+          }
         })
     },
     handleInputOverflow (isOverflow) {

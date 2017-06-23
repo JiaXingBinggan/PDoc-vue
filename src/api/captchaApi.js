@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export default {
   getEmailCaptcha (toEmail) {
-    let url = captchaApi.getCaptchaEmailUrl() + '?email=' + toEmail
+    let url = captchaApi.getCaptchaEmailUrl() + '?email=' + toEmail + '&expire=' + Date.now()
     return axios({
       method: 'get',
       url: url,

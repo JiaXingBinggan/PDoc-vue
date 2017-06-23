@@ -54,9 +54,6 @@ export default {
       sendButtonActive: false
     }
   },
-  created () {
-    this.test()
-  },
   watch: {
     emailCaptcha: function (val) {
       var _this = this
@@ -77,16 +74,16 @@ export default {
       let _this = this
       captchaApi.getEmailCaptcha(this.registerEmail)
         .then(function (response) {
-          console.log(response);
-          _this.sendButtonActive = true
-          _this.sendButtonTextTime()
-        })
-        .catch(function (error) {
-          console.log(error)
-          _this.$notify.error({
-            title: '错误',
-            message: '发送邮件失败'
-          })
+          if (response.data.code == 1) {
+            _this.sendButtonActive = true
+            _this.sendButtonTextTime()
+          }
+          if (response.data.code == -1) {
+            _this.$notify.error({
+              title: '错误',
+              message: '发送邮件失败'
+            })
+          }
         })
     },
     sendButtonTextTime () {
@@ -135,9 +132,6 @@ export default {
               }
           })
       }
-    },
-    test () {
-      console.log(this.$store.state)
     }
   }
 }

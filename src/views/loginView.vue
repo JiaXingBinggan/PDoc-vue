@@ -8,8 +8,6 @@
       <mu-text-field hintText="密码" :errorText="passErrorText" type="password" v-model="password"/>
     </mu-flexbox-item>
     <mu-flexbox-item class="flex-demo-captcha">
-      <!-- <mu-text-field hintText="验证码" :errorText="captchaErrorText" icon="message" v-model="captcha" @textOverflow="captchaInputOverflow" :maxLength="6" class="captchaInput"/> -->
-      <!-- <captcha></captcha> -->
       <div id="captcha">
         <p id="wait" class="show">正在加载验证码......</p>
       </div>
@@ -23,15 +21,11 @@
 </template>
 
 <script>
-// import captcha from '../components/captcha/captcha.vue'
 import captchaApi from '../api/captchaApi'
 import authApi from '../api/authApi'
 import gtInit from '../assets/gt'
 export default {
   name: 'login-view',
-  // components: {
-  //   captcha
-  // },
   data () {
     return {
       account: '',
@@ -54,9 +48,6 @@ export default {
       if (this.password == '') {
         this.passErrorText = '请输入您的密码'
       }
-      // if (this.captcha == '') {
-      //   this.captchaErrorText = '请输入验证码'
-      // }
       if (this.account !== '' && this.password !== '') {
         this.toLogin()
       } else {
@@ -78,7 +69,6 @@ export default {
         authApi.login(this.account, this.password)
           .then(function (response) {
             if (response.data.code == 1) {
-              console.log(response)
               let userInfo = {
                 email: _this.account,
                 name: response.data.result.name,
@@ -112,7 +102,7 @@ export default {
       var _this = this
       captchaApi.getGtCaptcha()
         .then(function(res) {
-          console.log(gtInit)
+          console.log(gtInit);
           window.initGeetest({
               // 以下 4 个配置参数为必须，不能缺少
               gt: res.data.gt,
