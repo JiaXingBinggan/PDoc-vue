@@ -36,7 +36,7 @@ module.exports = {
         }
       },
       '/portrait': {
-        target: 'http://localhost:80/img/portraitf',
+        target: 'http://localhost:80/img/portrait',
         changeOrigin: true,
         pathRewrite: {
             '^/portrait': ''
