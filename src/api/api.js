@@ -32,7 +32,9 @@ export const captchaApi = {
   // GET
   getImgCaptchaUrl: () => '/api/captchas/imgCaptcha',
   // GET
-  getGtCaptchaUrl: () => '/api/captchas/gtCaptcha'
+  getGtCaptchaUrl: () => '/api/captchas/gtCaptcha',
+  // GET
+  getSvgCaptchaUrl: () => '/api/captchas/svgCaptcha'
 }
 
 export const imgApi = {

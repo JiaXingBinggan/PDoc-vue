@@ -76,7 +76,7 @@ export default {
       url: url,
       data: {
         password: pass,
-        imgCaptcha: cap
+        svgCaptcha: cap
       },
       withCredentials: true
     })

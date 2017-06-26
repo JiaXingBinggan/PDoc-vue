@@ -12,10 +12,14 @@
               <mu-icon-button icon='menu' slot="left" @click="toggle()"/>
             </mu-appbar>
             <mu-list>
-              <mu-list-item @click="userInfo" title="个人信息"/>
+              <mu-list-item @click="userInfo" title="个人信息">
+                <mu-icon slot="left" value="person"/>
+              </mu-list-item>
             </mu-list>
             <mu-list>
-              <mu-list-item @click="loginOut" title="退出登录"/>
+              <mu-list-item @click="loginOut" title="退出登录">
+                 <mu-icon slot="left" value="input"/>
+              </mu-list-item>
             </mu-list>
           </mu-drawer>
       </mu-appbar>

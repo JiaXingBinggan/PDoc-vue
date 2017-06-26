@@ -93,8 +93,20 @@ export default {
       }
       userApi.updateUser(this.userId, this.updateName, this.updateTel, this.updateBirthDate, this.updateSex, this.updateDesc)
         .then(function (res) {
-          _this.$store.dispatch('updateuser', updateUserInfo)
-          _this.$router.push('/userinfo/account-info');
+          if (res.data.code == 1) {
+            _this.$store.dispatch('updateuser', updateUserInfo);
+            _this.$notify.success({
+              title: '成功',
+              message: '修改信息成功'
+            })
+            _this.$router.push('/userinfo/account-info');
+          }
+          if (res.data.code == -1) {
+            _this.$notify.error({
+              title: '错误',
+              message: '修改信息失败'
+            })
+          }
         })
     },
     reset () {

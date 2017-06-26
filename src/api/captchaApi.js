@@ -37,5 +37,13 @@ export default {
       url: url,
       withCredentials: true
     })
+  },
+  getSvgCaptcha () {
+    let url = captchaApi.getSvgCaptchaUrl()
+    return axios({
+      method: 'get',
+      url: url,
+      withCredentials: true
+    })
   }
 }
