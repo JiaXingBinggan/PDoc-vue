@@ -10,8 +10,21 @@
       <mu-flexbox-item class="flex-demo">
         <mu-text-field v-model="emailCaptcha" hintText="请输入邮箱验证码" :errorText="errorEmailCaptcha" class="textInput"/>
       </mu-flexbox-item>
-      <mu-flexbox-item class="flex-demo">
-        <mu-text-field v-model="newPassword" hintText="请输入新密码" type="password" :errorText="errorPassword" class="textInput"/>
+      <mu-flexbox-item class="flex-demo-pass">
+        <mu-row gutter>
+          <mu-col width="100" tablet="50" desktop="50">
+            <mu-text-field v-model="newPassword" hintText="请输入新密码" type="password" :errorText="errorPassword" class="textInput"/>
+          </mu-col>
+          <mu-col width="100" tablet="50" desktop="50">
+            <div class="password-score">
+              <div v-if="countPassword <= 1" class="password-weak"></div>
+              <div v-if="countPassword > 1 && countPassword <= 3" v-text=""class="password-medium"></div>
+              <div v-if="countPassword == 4" class="password-strong"></div>
+            </div>
+          </mu-col>
+        </mu-row>
+        
+        
       </mu-flexbox-item>
       <mu-flexbox-item class="flex-demo">
         <mu-text-field v-model="newPasswordRe" hintText="请确认您输入的新密码" type="password" :errorText="errorPasswordRe" class="textInput"/>
@@ -155,4 +168,23 @@ export default {
 .flex-demo-button
   height 50px
   margin-left 40px
+.flex-demo-pass
+  height 50px
+  line-height 32px
+.password-score
+  height 15px
+  width 200px
+  border 1px solid #ccc
+  .password-weak
+    height 15px
+    width 85px
+    background-color red
+  .password-medium
+    height 15px
+    width 165px
+    background-color orange
+  .password-strong
+    height 15px
+    width 255px
+    background-color green
 </style>
