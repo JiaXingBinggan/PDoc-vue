@@ -4,6 +4,7 @@
       <mu-appbar>
         <div class="inner">
           <router-link to="/">首页</router-link>
+          <router-link to="/docsview">文档管理</router-link>
         </div>
         <mu-flat-button v-if="!loginStatus" color="white" label="登录/注册" slot="right" @click="login"/>
         <mu-flat-button v-if="loginStatus" color="white" slot="right" :label="userName" @click="toggle()" />

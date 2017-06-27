@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import indexView from '../views/indexView.vue'
+import docsView from '../views/docsView.vue'
+import adddoc from '../components/docs/addDoc.vue'
+import editdoc from '../components/docs/editDoc.vue'
+import viewdoc from '../components/docs/viewDoc.vue'
 import loginView from '../views/loginView.vue'
 import registerView from '../views/registerView.vue'
 import userinfo from '../components/user/userinfo.vue'
@@ -15,6 +19,30 @@ export default new Router({
     {
       path: '/',
       component: indexView
+    },
+    {
+      path: '/docsview',
+      component: docsView,
+      children: [
+        {
+          path: 'add-doc',
+          components: {
+            docView: adddoc
+          }
+        },
+        {
+          path: 'edit-doc',
+          components: {
+            docView: editdoc
+          }
+        },
+        {
+          path: 'view-doc',
+          components: {
+            docView: viewdoc
+          }
+        }
+      ]
     },
     {
       path: '/login',
