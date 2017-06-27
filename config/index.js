@@ -29,14 +29,14 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://localhost:80/api',
+        target: 'http://localhost:8080/api',
         changeOrigin: true,
         pathRewrite: {
             '^/api': ''
         }
       },
       '/portrait': {
-        target: 'http://localhost:80/img/portrait',
+        target: 'http://os6nxajp2.bkt.clouddn.com/img/portrait',
         changeOrigin: true,
         pathRewrite: {
             '^/portrait': ''

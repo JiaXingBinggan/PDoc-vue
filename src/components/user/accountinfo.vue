@@ -74,7 +74,7 @@ export default {
             } else {
               _this.userDesc = res.data.result.desc;
             }
-            imgApi.getUserPortrait(id)
+            imgApi.getQiniuPortrait(id)
               .then(function (response) {
                 if (res.data.code == 1) {
                   _this.portraitUrl = '/portrait/' + response.data.result;

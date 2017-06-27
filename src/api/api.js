@@ -41,5 +41,9 @@ export const imgApi = {
   // POST
   imgPortraitUrl: id => '/api/img/portrait/' + id,
   // GET
-  getImgPortraitUrl: id => '/api/img/portrait/' + id
+  getImgPortraitUrl: id => '/api/img/portrait/' + id,
+  // GET
+  getQiniuPortraitUrl: id => '/api/img/qiniu/' + id,
+  // POST
+  qiniuPortraitUrl: id => '/api/img/qiniu/' + id
 }

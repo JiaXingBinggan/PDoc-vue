@@ -121,8 +121,8 @@ export default {
       let formdata = new FormData();
       formdata.append('file', event.target.files[0]);
       if (formdata) {
-        imgApi.addUserPortrait(this.userId, formdata)
-        .then(function (res) {
+        imgApi.addQiniuPortrait(this.userId, formdata)
+          .then(function (res) {
           if (res.data.code == 1) {
             _this.$notify.success({
               title: '成功',
@@ -154,7 +154,7 @@ export default {
             _this.updateSex = response.data.result.sex
             _this.updateBirthDate = response.data.result.birthdate
             _this.updateDesc = response.data.result.desc
-            imgApi.getUserPortrait(_this.userId)
+            imgApi.getQiniuPortrait(_this.userId)
               .then(function (res) {
                 if (res.data.code == 1) {
                   _this.imgSrcUrl = '/portrait/' + res.data.result
