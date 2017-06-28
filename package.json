@@ -20,8 +20,10 @@
     "moment": "^2.10.6",
     "muse-ui": "2.0.0-rc.5",
     "vue": "^2.2.2",
+    "vue-quill-editor": "^2.2.2",
     "vue-resource": "^1.2.1",
     "vue-router": "^2.2.0",
+    "vue-simplemde": "^0.3.8",
     "vuex": "^2.3.0"
   },
   "devDependencies": {

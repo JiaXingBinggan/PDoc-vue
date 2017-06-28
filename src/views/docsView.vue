@@ -4,7 +4,7 @@
       <mu-col width="100" tablet="25" desktop="25">
         <mu-text-field hintText="search" class="searchInput"/>
         <mu-raised-button class="mu-raised-button" primary><mu-icon value="add"></mu-icon></mu-raised-button>
-        <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" :render-content="renderContent" :expand-on-click-node="false" accordion @node-collapse="test"></el-tree>
+        <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" :render-content="renderContent" :default-expand-all="false" accordion></el-tree>
       </mu-col>
       <mu-col width="100" tablet="75" desktop="75">
          <router-view name="docView"></router-view>
@@ -53,9 +53,6 @@ export default {
     }
   },
   methods: {
-    test (data) {
-      this.renderContentStatus = false
-    },
     handleNodeClick (data) {
       this.currentNode = {
         id: data.id,
@@ -79,25 +76,28 @@ export default {
           }}, [
               createElement('mu-icon', {attrs: {
                   value: "add",
-                  size: 16
-              },
-              on: {
-                  click: function() {
-                    _this.$router.push('/docsview/view-doc');
-                  }
-              }}, "添加"),
-              createElement('mu-icon', {attrs: {
-                  value: "visibility",
-                  size: 16
+                  size: 16,
+                  title: '新增文档'
               },
               on: {
                   click: function() {
                     _this.$router.push('/docsview/add-doc');
                   }
+              }}, "添加"),
+              createElement('mu-icon', {attrs: {
+                  value: "visibility",
+                  size: 16,
+                  title: '查看文档'
+              },
+              on: {
+                  click: function() {
+                    _this.$router.push('/docsview/view-doc');
+                  }
               }}, "查看"),
               createElement('mu-icon', {attrs: {
                   value: "edit",
-                  size: 16
+                  size: 16,
+                  title: '编辑文档'
               },
               on: {
                   click: function () {
@@ -106,7 +106,8 @@ export default {
               }}, "编辑"),
               createElement('mu-icon', {attrs: {
                   value: "delete",
-                  size: 16
+                  size: 16,
+                  title: '删除文档'
               },
               on: {
                   click: function () {
