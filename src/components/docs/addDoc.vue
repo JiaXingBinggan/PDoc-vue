@@ -1,11 +1,11 @@
 <template>
 	<div class="add-doc">
-    <mu-card-title title="编辑" subTitle="节点1"/>
+    <mu-card-title title="新增文档"/>
     <mu-sub-header><b>标题</b></mu-sub-header>
     <mu-text-field hintText="search" class="contentInput"/>
     <mu-sub-header><b>描述</b></mu-sub-header>
     <mu-text-field hintText="search" class="contentInput"/>
-    <mu-sub-header><b>出生日期</b></mu-sub-header>
+    <mu-sub-header><b>文本内容</b></mu-sub-header>
     // TODO markdown编辑器
   </div>	
 </template>

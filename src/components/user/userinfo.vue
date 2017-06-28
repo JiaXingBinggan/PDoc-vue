@@ -1,7 +1,7 @@
 <template>
   <div class="user-info">
   	<mu-row>
-	    <mu-col width="100" tablet="50" desktop="20">
+	    <mu-col width="100" tablet="20" desktop="20">
 	    	<div class="info-menu">
 	    		<mu-paper class="demo-menu">
 				    <mu-menu>
@@ -12,7 +12,7 @@
 				  </mu-paper>
 	    	</div>
 	    </mu-col>
-	    <mu-col width="100" tablet="50" desktop="80">
+	    <mu-col width="100" tablet="80" desktop="80">
 	    	<div class="info-block">
             <router-view name="userView"></router-view>
         </div>
