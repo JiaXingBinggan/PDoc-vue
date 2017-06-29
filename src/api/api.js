@@ -47,3 +47,17 @@ export const imgApi = {
   // POST
   qiniuPortraitUrl: id => '/api/img/qiniu/' + id
 }
+
+export const docApi = {
+  // GET
+  getDocsUrl: () => '/api/docs/',
+  // POST
+  addDocUrl: () => '/api/docs/',
+  // GET
+  getSingleDocUrl: id => '/api/docs/' + id,
+  // PUT
+  modifyDocUrl: id => '/api/docs/' + id,
+  // DELETE
+  deleteDocUrl: id => '/api/docs/' + id
+}
+

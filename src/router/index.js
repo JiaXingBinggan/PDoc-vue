@@ -25,19 +25,19 @@ export default new Router({
       component: docsView,
       children: [
         {
-          path: 'add-doc',
+          path: 'add-doc/:id',
           components: {
             docView: adddoc
           }
         },
         {
-          path: 'edit-doc',
+          path: 'edit-doc/:id',
           components: {
             docView: editdoc
           }
         },
         {
-          path: 'view-doc',
+          path: 'view-doc/:id',
           components: {
             docView: viewdoc
           }

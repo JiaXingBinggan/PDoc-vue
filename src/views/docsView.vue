@@ -3,8 +3,8 @@
     <mu-row gutter>
       <mu-col width="100" tablet="25" desktop="25">
         <mu-text-field hintText="search" class="searchInput"/>
-        <mu-raised-button class="mu-raised-button" primary><mu-icon value="add"></mu-icon></mu-raised-button>
-        <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" :render-content="renderContent" :default-expand-all="false" accordion></el-tree>
+        <mu-raised-button class="mu-raised-button" @click="newRootDoc" primary><mu-icon value="add"></mu-icon></mu-raised-button>
+        <el-tree :data="treedata" :props="defaultProps" @node-click="handleNodeClick" :render-content="renderContent" :default-expand-all="false" accordion></el-tree>
       </mu-col>
       <mu-col width="100" tablet="75" desktop="75">
          <router-view name="docView"></router-view>
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import docApi from '../api/docApi'
+import Store from '../utils/store'
 export default {
   name: 'docs-view',
   data () {
@@ -28,31 +30,26 @@ export default {
         label: '',
         children: []
       }, // 当前节点
-      data: [{
-          id: 1,
-          p_id: 0,
-          level: 1,
-          label: '一级 1',
-          children: [{
-            id: 2,
-            level: 2,
-            p_id: 1,
-            label: '二级 1-1',
-            children: [{
-              id: 3,
-              level: 3,
-              p_id: 2,
-              label: '三级 1-1-1'
-            }]
-          }]
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        }
+      treedata: [],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
     }
   },
+  computed: {
+    localStorage () {
+      // window.localStorege.user转换为json
+      return Store.fetch('user')
+    }
+  },
+  created () {
+    this.getTreeNodes(this.localStorage.userInfo.email)
+  },
   methods: {
+    newRootDoc () {
+      this.$router.push('/docsview/add-doc/' + 0);
+    },
     handleNodeClick (data) {
       this.currentNode = {
         id: data.id,
@@ -64,11 +61,21 @@ export default {
       this.renderContentStatus = true
       // this.$router.push('/docsview/view-doc')
     },
+    getTreeNodes (email) {
+      let _this = this
+      docApi.getDocs(email)
+        .then(function (res) {
+          _this.treedata = [];
+          for (var i = 0; i < res.data.result.length; i++) {
+            _this.treedata.push(res.data.result[i])
+          }
+        })
+    },
     renderContent: function(createElement, { node, data, store }) {
       var _this = this;
       if (this.renderContentStatus) {
         return createElement('span', {attrs: {
-            id: node.id
+            id: data._id
           }}, [
           createElement('span', node.label),
           createElement('span', {attrs: {
@@ -81,7 +88,7 @@ export default {
               },
               on: {
                   click: function() {
-                    _this.$router.push('/docsview/add-doc');
+                    _this.$router.push('/docsview/add-doc/' + data._id);
                   }
               }}, "添加"),
               createElement('mu-icon', {attrs: {
@@ -91,7 +98,7 @@ export default {
               },
               on: {
                   click: function() {
-                    _this.$router.push('/docsview/view-doc');
+                    _this.$router.push('/docsview/view-doc/' + data._id);
                   }
               }}, "查看"),
               createElement('mu-icon', {attrs: {
@@ -101,7 +108,7 @@ export default {
               },
               on: {
                   click: function () {
-                      _this.$router.push('/docsview/edit-doc');
+                      _this.$router.push('/docsview/edit-doc/' + data._id);
                   }
               }}, "编辑"),
               createElement('mu-icon', {attrs: {
@@ -111,7 +118,22 @@ export default {
               },
               on: {
                   click: function () {
-                      store.remove(data);
+                      docApi.deleteDoc(data._id)
+                        .then(function (res) {
+                          if (res.data.code == 1) {
+                            _this.$notify.success({
+                              title: '成功',
+                              message: '删除文档成功'
+                            })
+                            _this.getTreeNodes(_this.localStorage.userInfo.email)
+                          }
+                          if (res.data.code == -1) {
+                            _this.$notify.error({
+                              title: '错误',
+                              message: '删除文档失败'
+                            })
+                          }
+                        })
                   }
               }}, "删除")
           ])

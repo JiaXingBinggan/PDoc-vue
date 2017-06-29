@@ -1,10 +1,10 @@
 <template>
 	<div class="edit-doc">
     <mu-card-title title="编辑文档" subTitle="节点1"/>
-    <mu-sub-header><b>标题</b></mu-sub-header>
-    <mu-text-field hintText="search" class="contentInput"/>
+    <mu-sub-header ><b>标题</b></mu-sub-header>
+    <mu-text-field hintText="label" class="contentInput" v-model="editLabel"/>
     <mu-sub-header><b>描述</b></mu-sub-header>
-    <mu-text-field hintText="search" class="contentInput"/>
+    <mu-text-field hintText="description" class="contentInput" v-model="editDesc"/>
     <mu-sub-header><b>文本内容</b></mu-sub-header>
     <quill-editor v-if="!isMd" v-model="editorContent"
       ref="myQuillEditor"
@@ -24,23 +24,39 @@
 </template>
 
 <script>
+import docApi from '../../api/docApi'
 export default {
   name: 'edit-doc',
   data () {
     return {
       msg: '这是首页',
-      isMd: true,
+      isMd: false,
+      editLabel: '',
+      editDesc: '',
       editorContent: '',
       editorOption: {},
       mdContent: '',
       configs: {
         status: true,
-        initialValue: 'Hello BBK',
         toolbarTip: true
       }
     }
   },
+  created () {
+    this.getCurrentDoc()
+  },
   methods: {
+    getCurrentDoc () {
+      let _this = this;
+      let id = this.$route.params.id;
+      docApi.getSingleDoc(id)
+        .then(function (res) {
+          _this.editLabel = res.data.result.label;
+          _this.editDesc = res.data.result.desc;
+          _this.editorContent = res.data.result.doc_content;
+          _this.isMd = res.data.result.doc_type;
+        })
+    },
     onEditorBlur (editor) {
       console.log('editor blur!', editor)
     },
