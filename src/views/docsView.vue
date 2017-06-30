@@ -68,13 +68,17 @@ export default {
     },
     getTreeNodes (email) {
       let _this = this
-      docApi.getDocs(email)
+      if (this.localUserStorage.login == true) {
+        docApi.getDocs(email)
         .then(function (res) {
           var docInfo = {
             newTreeNodes: res.data.result
           }
           _this.$store.dispatch('updatedoc', docInfo)
         })
+      } else {
+        this.$router.push('/login')
+      }
     },
     renderContent: function(createElement, { node, data, store }) {
       var _this = this;

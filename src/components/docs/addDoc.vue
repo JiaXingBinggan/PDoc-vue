@@ -102,7 +102,7 @@ export default {
                         newTreeNodes: res.data.result
                       }
                       _this.$store.dispatch('updatedoc', docInfo)
-                      _this.$router.push('/docsview/view-doc/' + 0)
+                      _this.$router.push('/docsview/add-doc/' + 0)
                     })
                 }
                 if (res.data.code == -1) {
