@@ -3,13 +3,14 @@
    <mu-card>
 	  <mu-card-title :title="label" :subTitle="desc"/>
 	  <mu-card-text>
-	    {{content}}
+      <div id="docContent"></div>
 	  </mu-card-text>
 	</mu-card>
   </div>	
 </template>
 
 <script>
+// import {markdown} from 'markdown'
 import docApi from '../../api/docApi'
 export default {
   name: 'view-doc',
@@ -20,6 +21,9 @@ export default {
       desc: '',
       content: ''
     }
+  },
+  watch: {
+    '$route': 'getCurrentDoc'
   },
   created () {
     this.getCurrentDoc()
@@ -32,7 +36,11 @@ export default {
         .then(function (res) {
           _this.label = res.data.result.label;
           _this.desc = res.data.result.desc;
-          _this.content = res.data.result.doc_content;
+          if (res.data.result.doc_type == true) {
+            document.getElementById('docContent').innerHTML = res.data.result.md_html
+          } else {
+            document.getElementById('docContent').innerHTML = res.data.result.doc_content
+          }
         })
     }
   }
@@ -40,5 +48,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+.view-doc
+  height 100%
 </style>

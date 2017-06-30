@@ -9,15 +9,12 @@
     <quill-editor v-if="!isMd" v-model="editorContent"
       ref="myQuillEditor"
       :options="editorOption"
-      @blur="onEditorBlur($event)"
-      @focus="onEditorFocus($event)"
-      @ready="onEditorReady($event)"
       class="editorInput">
     </quill-editor> 
     <!-- TODOmd -->
-    <markdown-editor v-if="isMd" v-model="mdContent" :configs="configs" ref="markdownEditor" class="mdInput"></markdown-editor>
+    <markdown-editor v-if="isMd" v-model="mdContent" :configs="configs" ref="markdownEditor" :custom-theme="true" class="mdInput"></markdown-editor>
     <div class="buttonInput">
-      <mu-raised-button label="提交" class="demo-raised-button" primary/>
+      <mu-raised-button label="提交" class="demo-raised-button" @click="updateDoc" primary/>
       <mu-raised-button label="重置" class="demo-raised-button"/>
     </div>
   </div>	
@@ -39,8 +36,12 @@ export default {
       configs: {
         status: true,
         toolbarTip: true
-      }
+      },
+      currentDocContent: ''
     }
+  },
+  watch: {
+    '$route': 'getCurrentDoc'
   },
   created () {
     this.getCurrentDoc()
@@ -53,22 +54,38 @@ export default {
         .then(function (res) {
           _this.editLabel = res.data.result.label;
           _this.editDesc = res.data.result.desc;
-          _this.editorContent = res.data.result.doc_content;
           _this.isMd = res.data.result.doc_type;
+          if (res.data.result.doc_type == true) {
+            _this.mdContent = res.data.result.doc_content;
+          } else {
+            _this.editorContent = res.data.result.doc_content;
+          }
         })
     },
-    onEditorBlur (editor) {
-      console.log('editor blur!', editor)
-    },
-    onEditorFocus (editor) {
-      console.log('editor focus!', editor)
-    },
-    onEditorReady (editor) {
-      console.log('editor ready!', editor)
-    },
-    onEditorChange ({ editor, html, text }) {
-      console.log('editor change!', editor, html, text)
-      this.content = html
+    updateDoc () {
+      let _this = this
+      let id = this.$route.params.id;
+      if (this.isMd == true) {
+        this.currentDocContent = this.mdContent
+      } else {
+        this.currentDocContent = this.editorContent
+      }
+      docApi.modifyDoc(id, this.editLabel, this.editDesc, this.currentDocContent)
+        .then(function (res) {
+          if (res.data.code == 1) {
+            _this.$notify.success({
+              title: '成功',
+              message: '修改文档成功'
+            })
+            _this.$router.push('/docsview/view-doc/' + _this.$route.params.id)
+          }
+          if (res.data.code == -1) {
+            _this.$notify.error({
+              title: '错误',
+              message: '修改文档失败'
+            })
+          }
+        })
     }
   }
 }
@@ -79,6 +96,7 @@ export default {
   margin auto
   width 100%
 .buttonInput
+  position flex
   margin-left 15px
 .contentInput
   width 100%
@@ -90,7 +108,6 @@ export default {
   margin-bottom 70px
 .mdInput
   width 100%
-  height 400px
   margin-left 15px
-  margin-bottom -25px
+  margin-bottom -10px
 </style>

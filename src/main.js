@@ -11,6 +11,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import VueQuillEditor from 'vue-quill-editor'
 import VueSimplemde from 'vue-simplemde'
+import 'simplemde-theme-base/dist/simplemde-theme-base.min.css'
 Vue.config.productionTip = false
 Vue.prototype.HOST = '/api'
 Vue.use(MuseUI)

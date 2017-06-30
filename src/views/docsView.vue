@@ -30,7 +30,6 @@ export default {
         label: '',
         children: []
       }, // 当前节点
-      treedata: [],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -38,13 +37,19 @@ export default {
     }
   },
   computed: {
-    localStorage () {
+    localUserStorage () {
       // window.localStorege.user转换为json
       return Store.fetch('user')
+    },
+    localDocStorage () {
+      return Store.fetch('docs')
+    },
+    treedata () {
+      return this.$store.state.docs.treeNodes
     }
   },
   created () {
-    this.getTreeNodes(this.localStorage.userInfo.email)
+    this.getTreeNodes(this.localUserStorage.userInfo.email)
   },
   methods: {
     newRootDoc () {
@@ -65,10 +70,10 @@ export default {
       let _this = this
       docApi.getDocs(email)
         .then(function (res) {
-          _this.treedata = [];
-          for (var i = 0; i < res.data.result.length; i++) {
-            _this.treedata.push(res.data.result[i])
+          var docInfo = {
+            newTreeNodes: res.data.result
           }
+          _this.$store.dispatch('updatedoc', docInfo)
         })
     },
     renderContent: function(createElement, { node, data, store }) {
@@ -88,7 +93,18 @@ export default {
               },
               on: {
                   click: function() {
-                    _this.$router.push('/docsview/add-doc/' + data._id);
+                    docApi.getSingleDoc(data._id)
+                      .then(function (res) {
+                        if (res.data.result.level == 3) {
+                          _this.$notify.error({
+                            title: '错误',
+                            message: '文档不能超过三级'
+                          })
+                        }
+                        if (res.data.result.level == 1 || res.data.result.level == 2) {
+                          _this.$router.push('/docsview/add-doc/' + data._id);
+                        }
+                      })
                   }
               }}, "添加"),
               createElement('mu-icon', {attrs: {
@@ -118,19 +134,67 @@ export default {
               },
               on: {
                   click: function () {
-                      docApi.deleteDoc(data._id)
-                        .then(function (res) {
-                          if (res.data.code == 1) {
-                            _this.$notify.success({
-                              title: '成功',
-                              message: '删除文档成功'
+                      docApi.getSingleDoc(data._id)
+                        .then(function (ret) {
+                          if (ret.data.result.children.length != 0) {
+                            _this.$confirm('该文档有子节点, 是否继续?', '提示', {
+                              confirmButtonText: '确定',
+                              cancelButtonText: '取消',
+                              type: 'warning'
+                            }).then(() => {
+                              docApi.deleteDoc(data._id)
+                                .then(function (res) {
+                                  if (res.data.code == 1) {
+                                    _this.$notify.success({
+                                      title: '成功',
+                                      message: '删除文档成功'
+                                    })
+                                    docApi.getDocs(_this.localUserStorage.userInfo.email)
+                                      .then(function (res) {
+                                        var docInfo = {
+                                          newTreeNodes: res.data.result
+                                        }
+                                        _this.$store.dispatch('updatedoc', docInfo);
+                                        _this.$router.push('/docsview');
+                                      })
+                                  }
+                                  if (res.data.code == -1) {
+                                    _this.$notify.error({
+                                      title: '错误',
+                                      message: '删除文档失败'
+                                    })
+                                  }
+                                })
                             })
-                            _this.getTreeNodes(_this.localStorage.userInfo.email)
-                          }
-                          if (res.data.code == -1) {
-                            _this.$notify.error({
-                              title: '错误',
-                              message: '删除文档失败'
+                          } else {
+                            _this.$confirm('您将要删除此文档, 是否继续?', '提示', {
+                              confirmButtonText: '确定',
+                              cancelButtonText: '取消',
+                              type: 'warning'
+                            }).then(() => {
+                              docApi.deleteDoc(data._id)
+                                .then(function (res) {
+                                  if (res.data.code == 1) {
+                                    _this.$notify.success({
+                                      title: '成功',
+                                      message: '删除文档成功'
+                                    })
+                                    docApi.getDocs(_this.localUserStorage.userInfo.email)
+                                      .then(function (res) {
+                                        var docInfo = {
+                                          newTreeNodes: res.data.result
+                                        }
+                                        _this.$store.dispatch('updatedoc', docInfo);
+                                        _this.$router.push('/docsview/view-doc/' + 0);
+                                      })
+                                  }
+                                  if (res.data.code == -1) {
+                                    _this.$notify.error({
+                                      title: '错误',
+                                      message: '删除文档失败'
+                                    })
+                                  }
+                                })
                             })
                           }
                         })
@@ -151,9 +215,9 @@ export default {
 <style lang="stylus" scoped>
 .docs-view
   width 1200px
-  height 900px
+  min-height 600px
   margin 0px auto 
-  margin-top 60px
+  margin-top 40px
 .mu-raised-button
   min-width 40px
   top 5px

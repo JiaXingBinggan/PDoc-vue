@@ -10,7 +10,7 @@ export default {
       withCredentials: true
     })
   },
-  addDoc (isRoot, pId, label, desc, docContent, docType, ownerEmail) {
+  addDoc (isRoot, pId, label, desc, docContent, mdHtml, docType, ownerEmail) {
     return axios({
       method: 'post',
       url: docApi.addDocUrl(),
@@ -20,6 +20,7 @@ export default {
         label: label,
         desc: desc,
         docContent: docContent,
+        mdHtml: mdHtml,
         docType: docType,
         ownerEmail: ownerEmail
       },
