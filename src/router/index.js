@@ -11,6 +11,7 @@ import userinfo from '../components/user/userinfo.vue'
 import accountinfo from '../components/user/accountinfo.vue'
 import accountmanage from '../components/user/accountmanage.vue'
 import accountpass from '../components/user/accountpass.vue'
+import NotFoundView from '../views/NotFoundView.vue'
 
 Vue.use(Router)
 
@@ -75,6 +76,10 @@ export default new Router({
           }
         }
       ]
+    },
+    {
+      path: '/*',
+      component: NotFoundView
     }
   ]
 })

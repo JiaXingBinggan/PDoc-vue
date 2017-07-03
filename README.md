@@ -1,6 +1,6 @@
-# 基于session的vue登录
+# 个人文档中心
 
-> 基于session的vue登录
+> 个人文档中心
 
 ## Build Setup
 
@@ -24,7 +24,7 @@ npm run build
 + CSS的预处理框架: [Stylus](http://stylus-lang.com/),[中文文档](http://www.zhangxinxu.com/jq/stylus/)
 + 资源加载打包工具：[Webpack](https://webpack.github.io/)
 + 代码规范工具：[eslint](http://eslint.org/)
-+ 其他：[ES6](https://wohugb.gitbooks.io/ecmascript-6/content/index.html)
++ 其他：[ES6](https://wohugb.gitbooks.io/ecmascript-6/content/index.html),[极验](http://www.geetest.com/)
 
 ## To Do List
 + [ ] 设计
@@ -52,4 +52,4 @@ npm run build
   + [ ] 搜索
     + [ ] 首页基本搜索
     + [ ] 文档管理搜索页
-  + [ ] 404页
+  + [x] 404页
