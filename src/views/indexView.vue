@@ -1,16 +1,12 @@
 <template>
 	<div class="index-view">
    <mu-row gutter>
-    <mu-col v-for="doc, index in rootDocs" width="100" tablet="50" desktop="25">
+    <mu-col v-for="doc, index in rootDocs" width="80" tablet="80" desktop="25">
       <div class="docCard" @click="goToDoc(doc._id)">
         <mu-card>
           <mu-card-title :title="doc.label.slice(0,5)" :subTitle="doc.desc"/>
-          <mu-card-text>
-            {{doc.doc_content.slice(0,50)}}
-          </mu-card-text>
         </mu-card>
       </div>
-      
     </mu-col>
   </mu-row> 
   </div>	
@@ -36,7 +32,7 @@ export default {
   methods: {
     getRootDocs(email) {
       let _this = this
-      docApi.getDocs(email)
+      docApi.getDocs(this.$store.state.user.userInfo.email)
         .then(function (res) {
           var docInfo = {
             newTreeNodes: res.data.result
@@ -45,7 +41,6 @@ export default {
         })
     },
     goToDoc (id) {
-      console.log('dd')
       this.$router.push('/docsview/view-doc/' + id)
     }
   }

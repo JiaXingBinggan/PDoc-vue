@@ -1,12 +1,12 @@
 <template>
 	<div class="docs-view">
     <mu-row gutter>
-      <mu-col width="100" tablet="25" desktop="25">
+      <mu-col width="30" tablet="30" desktop="25">
         <mu-text-field hintText="search" class="searchInput"/>
         <mu-raised-button class="mu-raised-button" @click="newRootDoc" primary><mu-icon value="add"></mu-icon></mu-raised-button>
         <el-tree :data="treedata" :props="defaultProps" @node-click="handleNodeClick" :render-content="renderContent" :default-expand-all="false" accordion></el-tree>
       </mu-col>
-      <mu-col width="100" tablet="75" desktop="75">
+      <mu-col width="80" tablet="80" desktop="75">
          <router-view name="docView"></router-view>
       </mu-col>
     </mu-row>
@@ -222,12 +222,19 @@ export default {
   min-height 600px
   margin 0px auto 
   margin-top 40px
+.demo-view div[class*="col-"]
+  background #fff
+  text-align center
+  color #000
+  border 1px solid #ddd
+  padding 8px
+  margin-bottom 20px
 .mu-raised-button
-  min-width 40px
+  min-width 15%
   top 5px
 .searchInput
   margin auto
-  width 80%
+  width 83%
 .contentInput
   width 100%
   margin-left 15px
