@@ -1,7 +1,7 @@
 <template>
 	<div class="index-view">
    <mu-row gutter>
-    <mu-col v-for="doc, index in rootDocs" width="80" tablet="80" desktop="25">
+    <mu-col v-for="doc, index in rootDocs" width="80" tablet="80" :desktop="desktopWidth">
       <div class="docCard" @click="goToDoc(doc._id)">
         <mu-card>
           <mu-card-title :title="doc.label.slice(0,5)" :subTitle="doc.desc"/>
@@ -18,7 +18,8 @@ export default {
   name: 'index-view',
   data () {
     return {
-      msg: '这是首页'
+      msg: '这是首页',
+      desktopWidth: 30
     }
   },
   computed: {
@@ -34,6 +35,15 @@ export default {
       let _this = this
       docApi.getDocs(this.$store.state.user.userInfo.email)
         .then(function (res) {
+          if (res.data.result.length == 3) {
+            _this.desktopWidth = 30
+          } else if (res.data.result.length >= 4) {
+            _this.desktopWidth = 25
+          } else if (res.data.result.length == 2) {
+            _this.desktopWidth = 50
+          } else {
+            _this.desktopWidth = 30
+          }
           var docInfo = {
             newTreeNodes: res.data.result
           }

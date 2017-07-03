@@ -2,7 +2,7 @@
 	<div class="docs-view">
     <mu-row gutter>
       <mu-col width="30" tablet="30" desktop="25">
-        <mu-text-field hintText="search" class="searchInput" v-model="nodeSearchText"/>
+        <mu-text-field hintText="文档名称" class="searchInput" v-model="nodeSearchText"/>
         <mu-raised-button class="mu-raised-button" @click="seachOperation" primary><mu-icon :value="searchIcon"></mu-icon></mu-raised-button>
         <el-tree :data="treedata" :props="defaultProps" @node-click="handleNodeClick" :render-content="renderContent" :default-expand-all="false" accordion></el-tree>
       </mu-col>
