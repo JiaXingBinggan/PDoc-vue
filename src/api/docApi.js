@@ -55,5 +55,13 @@ export default {
       url: url,
       withCredentials: true
     })
+  },
+  getDocByLabel (docLabel) {
+    let url = docApi.getDocByLabelUrl() + '?docLabel=' + docLabel
+    return axios({
+      method: 'get',
+      url: url,
+      withCredentials: true
+    })
   }
 }

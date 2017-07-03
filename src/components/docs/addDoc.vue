@@ -96,29 +96,41 @@ export default {
                     title: '成功',
                     message: '新增文档成功'
                   })
+                  _this.newLabel = '';
+                  _this.newDesc = '';
+                  _this.newEditorContent = '';
+                  _this.newMdContent = '';
                   docApi.getDocs(_this.localUserStorage.userInfo.email)
                     .then(function (res) {
                       var docInfo = {
                         newTreeNodes: res.data.result
                       }
-                      _this.$store.dispatch('updatedoc', docInfo)
-                      _this.$router.push('/docsview/add-doc/' + 0)
+                      _this.$store.dispatch('updatedoc', docInfo);
+                      _this.$router.push('/docsview/add-doc/' + 0);
                     })
                 }
                 if (res.data.code == -1) {
                   _this.$notify.error({
                     title: '失败',
-                    message: '新增文档失败'
+                    message: res.data.msg
                   })
                 }
               })
           } else if (ret.data.result.level == 3) {
             _this.$notify.error({
               title: '失败',
-              message: '仅能增加至三级节点'
+              message: '文档不能超过三级'
             })
           }
         })
+    },
+    rootLabelIsExist (label) {
+      var rootNodes = this.$store.state.docs.treeNodes;
+      for (var i = 0; i < rootNodes.length; i++) {
+        if (rootNodes[i].label == label) {
+          return false;
+        }
+      }
     }
   }
 }

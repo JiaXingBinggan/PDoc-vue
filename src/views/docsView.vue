@@ -2,8 +2,8 @@
 	<div class="docs-view">
     <mu-row gutter>
       <mu-col width="30" tablet="30" desktop="25">
-        <mu-text-field hintText="search" class="searchInput"/>
-        <mu-raised-button class="mu-raised-button" @click="newRootDoc" primary><mu-icon value="add"></mu-icon></mu-raised-button>
+        <mu-text-field hintText="search" class="searchInput" v-model="nodeSearchText"/>
+        <mu-raised-button class="mu-raised-button" @click="seachOperation" primary><mu-icon :value="searchIcon"></mu-icon></mu-raised-button>
         <el-tree :data="treedata" :props="defaultProps" @node-click="handleNodeClick" :render-content="renderContent" :default-expand-all="false" accordion></el-tree>
       </mu-col>
       <mu-col width="80" tablet="80" desktop="75">
@@ -22,7 +22,7 @@ export default {
     return {
       msg: '这是首页',
       mdInput: 'dddd',
-      renderContentStatus: false, // 是否显示右侧button
+      renderContentStatus: false, // 是否显示树节点右侧button
       currentNode: {
         id: null,
         p_id: null,
@@ -33,6 +33,15 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'label'
+      },
+      searchIcon: 'add',
+      nodeSearchText: ''
+    }
+  },
+  watch: {
+    nodeSearchText: function (val) {
+      if (val != '') {
+        this.searchIcon = 'search'
       }
     }
   },
@@ -52,7 +61,24 @@ export default {
     this.getTreeNodes(this.localUserStorage.userInfo.email)
   },
   methods: {
-    newRootDoc () {
+    seachOperation () {
+      let _this = this
+      if (this.searchIcon == 'add') {
+        this.$router.push('/docsview/add-doc/' + 0);
+      }
+      if (this.searchIcon == 'search') {
+        docApi.getDocByLabel(this.nodeSearchText)
+          .then(function (res) {
+            if (res.data.result) {
+              _this.$router.push('/docsview/view-doc/' + res.data.result);
+            } else {
+              _this.$notify.error({
+                title: '错误',
+                message: '未找到该文档 请输入正确的文档名'
+              })
+            }
+          })
+      }
       this.$router.push('/docsview/add-doc/' + 0);
     },
     handleNodeClick (data) {

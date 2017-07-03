@@ -77,7 +77,14 @@ export default {
               title: '成功',
               message: '修改文档成功'
             })
-            _this.$router.push('/docsview/view-doc/' + _this.$route.params.id)
+            docApi.getDocs(_this.$store.state.user.userInfo.email)
+              .then(function (res) {
+                var docInfo = {
+                  newTreeNodes: res.data.result
+                }
+                _this.$store.dispatch('updatedoc', docInfo);
+                _this.$router.push('/docsview/view-doc/' + _this.$route.params.id);
+              })
           }
           if (res.data.code == -1) {
             _this.$notify.error({

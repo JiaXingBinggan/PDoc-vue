@@ -58,6 +58,8 @@ export const docApi = {
   // PUT
   modifyDocUrl: id => '/api/docs/' + id,
   // DELETE
-  deleteDocUrl: id => '/api/docs/' + id
+  deleteDocUrl: id => '/api/docs/' + id,
+  // GET
+  getDocByLabelUrl: () => '/api/docs/doclabel/'
 }
 
