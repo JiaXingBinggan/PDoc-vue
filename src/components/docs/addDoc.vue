@@ -52,6 +52,9 @@ export default {
       currentDocContent: ''
     }
   },
+  created () {
+    this.isLogin()
+  },
   computed: {
     localUserStorage () {
       // window.localStorege.user转换为json
@@ -89,7 +92,7 @@ export default {
       docApi.getSingleDoc(pid)
         .then(function (ret) {
           if (ret.data.code == -1 || ret.data.result.level == 1 || ret.data.result.level == 2) {
-            docApi.addDoc(isRoot, pid, _this.newLabel, _this.newDesc, _this.currentDocContent, mdHtml, _this.isMd, _this.localUserStorage.userInfo.email)
+            docApi.addDoc(isRoot, pid, _this.newLabel, _this.newDesc, _this.currentDocContent, mdHtml, _this.isMd, _this.$store.state.user.userInfo.email)
               .then(function (res) {
                 if (res.data.code == 1) {
                   _this.$notify.success({
@@ -100,7 +103,7 @@ export default {
                   _this.newDesc = '';
                   _this.newEditorContent = '';
                   _this.newMdContent = '';
-                  docApi.getDocs(_this.localUserStorage.userInfo.email)
+                  docApi.getDocs(_this.$store.state.user.userInfo.email)
                     .then(function (res) {
                       var docInfo = {
                         newTreeNodes: res.data.result
@@ -130,6 +133,11 @@ export default {
         if (rootNodes[i].label == label) {
           return false;
         }
+      }
+    },
+    isLogin () {
+      if (this.$store.state.user.login == false) {
+        this.$router.push('/login')
       }
     }
   }

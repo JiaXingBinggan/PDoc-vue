@@ -4,7 +4,7 @@
     <mu-col v-for="doc, index in rootDocs" width="80" tablet="80" :desktop="desktopWidth">
       <div class="docCard" @click="goToDoc(doc._id)">
         <mu-card>
-          <mu-card-title :title="doc.label.slice(0,5)" :subTitle="doc.desc"/>
+          <mu-card-title :title="doc.label" :subTitle="doc.desc"/>
         </mu-card>
       </div>
     </mu-col>
@@ -19,7 +19,7 @@ export default {
   data () {
     return {
       msg: '这是首页',
-      desktopWidth: 30
+      desktopWidth: '30'
     }
   },
   computed: {
@@ -36,13 +36,13 @@ export default {
       docApi.getDocs(this.$store.state.user.userInfo.email)
         .then(function (res) {
           if (res.data.result.length == 3) {
-            _this.desktopWidth = 30
+            _this.desktopWidth = '30'
           } else if (res.data.result.length >= 4) {
-            _this.desktopWidth = 25
+            _this.desktopWidth = '25'
           } else if (res.data.result.length == 2) {
-            _this.desktopWidth = 50
+            _this.desktopWidth = '50'
           } else {
-            _this.desktopWidth = 30
+            _this.desktopWidth = '30'
           }
           var docInfo = {
             newTreeNodes: res.data.result

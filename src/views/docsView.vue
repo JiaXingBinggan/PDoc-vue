@@ -58,7 +58,7 @@ export default {
     }
   },
   created () {
-    this.getTreeNodes(this.localUserStorage.userInfo.email)
+    this.getTreeNodes(this.$store.state.user.userInfo.email)
   },
   methods: {
     seachOperation () {
@@ -94,7 +94,7 @@ export default {
     },
     getTreeNodes (email) {
       let _this = this
-      if (this.localUserStorage.login == true) {
+      if (this.$store.state.user.login == true) {
         docApi.getDocs(email)
         .then(function (res) {
           var docInfo = {
@@ -179,7 +179,7 @@ export default {
                                       title: '成功',
                                       message: '删除文档成功'
                                     })
-                                    docApi.getDocs(_this.localUserStorage.userInfo.email)
+                                    docApi.getDocs(_this.$store.state.user.userInfo.email)
                                       .then(function (res) {
                                         var docInfo = {
                                           newTreeNodes: res.data.result
@@ -215,7 +215,7 @@ export default {
                                           newTreeNodes: res.data.result
                                         }
                                         _this.$store.dispatch('updatedoc', docInfo);
-                                        _this.$router.push('/docsview/view-doc/' + 0);
+                                        _this.$router.push('/docsview/add-doc/' + 0);
                                       })
                                   }
                                   if (res.data.code == -1) {
