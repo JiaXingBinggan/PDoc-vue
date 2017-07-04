@@ -110,7 +110,7 @@ export default {
                   _this.newLabel = '';
                   _this.newDesc = '';
                   _this.newEditorContent = '';
-                  _this.newMdContent = '';
+                  _this.mdContent = '';
                   docApi.getDocs(_this.$store.state.user.userInfo.email)
                     .then(function (res) {
                       var docInfo = {
