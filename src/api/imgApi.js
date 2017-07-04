@@ -35,5 +35,14 @@ export default {
       url: url,
       withCredentials: true
     })
+  },
+  addMdImgs (formdata) {
+    let url = imgApi.addMdImgsUrl()
+    return axios({
+      method: 'post',
+      url: url,
+      data: formdata,
+      withCredentials: true
+    })
   }
 }

@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     getUserInfo () {
-      let id = this.getCookie('uid')
+      let id = this.$store.state.user.userInfo.uid
       let _this = this
       userApi.getSingleUser(id)
         .then(function (res) {

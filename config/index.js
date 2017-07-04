@@ -41,6 +41,13 @@ module.exports = {
         pathRewrite: {
             '^/portrait': ''
         }
+      },
+      '/docimgs': {
+        target: 'http://os6nxajp2.bkt.clouddn.com/img/docimgs',
+        changeOrigin: true,
+        pathRewrite: {
+            '^/docimgs': ''
+        }
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

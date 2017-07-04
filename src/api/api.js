@@ -45,7 +45,9 @@ export const imgApi = {
   // GET
   getQiniuPortraitUrl: id => '/api/img/qiniu/' + id,
   // POST
-  qiniuPortraitUrl: id => '/api/img/qiniu/' + id
+  qiniuPortraitUrl: id => '/api/img/qiniu/' + id,
+  // POST
+  addMdImgsUrl: () => '/api/img/mdeditor'
 }
 
 export const docApi = {
