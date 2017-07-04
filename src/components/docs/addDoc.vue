@@ -1,5 +1,5 @@
 <template>
-	<div class="add-doc">
+	<div id="test" class="add-doc">
     <mu-card-title :title="title"/>
     <mu-sub-header><b>标题</b></mu-sub-header>
     <mu-text-field hintText="标题" class="contentInput" v-model="newLabel"/>
@@ -20,7 +20,9 @@
       class="editorInput">
     </quill-editor>  -->
     <!-- TODOmd -->
-    <markdown-editor v-if="isMd" v-model="newMdContent" :configs="configs" ref="markdownEditor" class="mdInput" :custom-theme="true"></markdown-editor>
+    <div id="mdEditor">
+      <markdown-editor v-if="isMd" v-model="mdContent" :configs="configs" ref="markdownEditor" class="mdInput" :custom-theme="true"></markdown-editor>
+    </div>
     <div class="buttonInput">
       <mu-raised-button label="提交" class="demo-raised-button" @click="addNewDoc" primary/>
       <mu-raised-button label="重置" class="demo-raised-button"/>
@@ -32,6 +34,7 @@
 import docApi from '../../api/docApi'
 import Store from '../../utils/store'
 import { markdownEditor } from 'vue-simplemde'
+import editorEvent from '../../assets/common'
 export default {
   name: 'add-doc',
   components: {
@@ -45,15 +48,20 @@ export default {
       newDesc: '',
       newEditorContent: '',
       editorOption: {},
-      newMdContent: '',
+      mdContent: '', // 更新后的md文档内容
       configs: {
         status: false
       },
       currentDocContent: ''
     }
   },
-  created () {
-    this.isLogin()
+  beforeCreate () {
+    if (this.$store.state.user.login == false) {
+      this.$router.push('/login')
+    }
+  },
+  mounted () {
+    this.editorEvent()
   },
   computed: {
     localUserStorage () {
@@ -84,8 +92,8 @@ export default {
         isRoot = 1
       }
       if (this.isMd == true) {
-        this.currentDocContent = this.newMdContent;
-        mdHtml = this.simplemde.markdown(this.newMdContent);
+        this.currentDocContent = this.mdContent;
+        mdHtml = this.simplemde.markdown(this.mdContent);
       } else {
         this.currentDocContent = this.newEditorContent;
       }
@@ -135,10 +143,10 @@ export default {
         }
       }
     },
-    isLogin () {
-      if (this.$store.state.user.login == false) {
-        this.$router.push('/login')
-      }
+    editorEvent () {
+      let _this = this
+      var mdEditor = document.getElementById('mdEditor');
+      editorEvent.editorEvent(mdEditor, _this);
     }
   }
 }

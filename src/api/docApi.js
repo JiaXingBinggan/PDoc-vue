@@ -35,7 +35,7 @@ export default {
       withCredentials: true
     })
   },
-  modifyDoc (id, updateLabel, updateDesc, updateDoc) {
+  modifyDoc (id, updateLabel, updateDesc, updateDoc, updateMdHtml) {
     let url = docApi.modifyDocUrl(id)
     return axios({
       method: 'put',
@@ -43,7 +43,8 @@ export default {
       data: {
         updateLabel: updateLabel,
         updateDesc: updateDesc,
-        updateDoc: updateDoc
+        updateDoc: updateDoc,
+        updateMdHtml: updateMdHtml
       },
       withCredentials: true
     })
