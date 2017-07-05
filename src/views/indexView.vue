@@ -27,6 +27,11 @@ export default {
       return this.$store.state.docs.treeNodes
     }
   },
+  beforeCreate () {
+    if (this.$store.state.user.login == false) {
+      this.$router.push('/login')
+    }
+  },
   created () {
     this.getRootDocs(this.$store.state.user.userInfo.email)
   },
