@@ -15,7 +15,7 @@
   "dependencies": {
     "axios": "^0.15.2",
     "element-ui": "^1.0.3",
-    "jquery": "^2.2.3",
+    "jquery": "^3.0.0",
     "mavon-editor": "^2.1.0",
     "moment": "^2.10.6",
     "muse-ui": "2.0.0-rc.5",
